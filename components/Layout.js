@@ -7,7 +7,7 @@ const Layout = ({ children, categories }) => {
     <>
       <Meta />
       <Navbar categories={categories} />
-      <main className="bg-gray-100 min-h-screen">{children}</main>
+      <main className="bg-white min-h-screen overflow-hidden">{children}</main>
       <Footer />
     </>
   );

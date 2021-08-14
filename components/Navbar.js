@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaShoppingCart } from "react-icons/fa";
-import Logo from "../public/icon.png";
+import Logo from "../public/logo.png";
 import { useEffect, useState } from "react";
 
 const Navbar = ({ categories }) => {
@@ -22,11 +22,11 @@ const Navbar = ({ categories }) => {
 
   return (
     <nav
-      className={`fixed w-full h-16 px-16 text-white transition-all ${
-        activeNavbar ? "bg-gray-700 " : ""
+      className={`fixed z-20 w-full h-16 text-white transition-all ${
+        activeNavbar ? "bg-secondary" : ""
       }`}
     >
-      <div className="container h-full mx-auto flex justify-between items-center">
+      <div className="container px-6 md:px-16 h-full mx-auto flex justify-between items-center">
         <Link href="/">
           <a className="block relative h-full w-24 ">
             <Image
@@ -38,14 +38,16 @@ const Navbar = ({ categories }) => {
             />
           </a>
         </Link>
-        <div className="h-full w-1/4 flex items-center justify-between">
+        <div className="hidden h-full w-1/4 md:flex items-center justify-between">
           {categories.map((category) => (
-            <Link key={category.slug} href={`category/${category.slug}`}>
-              <a className="hover:text-gray-300">{category.name}</a>
+            <Link key={category.slug} href={`/categories/${category.slug}`}>
+              <a className="hover:text-gray-300 font-medium uppercase">
+                {category.name}
+              </a>
             </Link>
           ))}
         </div>
-        <Link href="cart">
+        <Link href="/cart">
           <a className="relative text-3xl">
             <FaShoppingCart />
             {cart > 0 && (
