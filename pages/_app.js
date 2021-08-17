@@ -1,4 +1,5 @@
 import "tailwindcss/tailwind.css";
+import "react-multi-carousel/lib/styles.css";
 import "../styles/global.css";
 import App from "next/app";
 import { getCategories } from "../lib/api";

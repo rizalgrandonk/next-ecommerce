@@ -7,10 +7,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#FF4C29",
-        secondary: "#334756",
-        dark: "#2C394B",
-        light: "#EEEEEE",
+        primary: "#FF5722",
+        secondary: "#2D4059",
+        dark: "#222831",
+        light: "#F5F5F5",
       },
       fontFamily: {
         sans: ["Poppins", ...defaultTheme.fontFamily.sans],
@@ -23,5 +23,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

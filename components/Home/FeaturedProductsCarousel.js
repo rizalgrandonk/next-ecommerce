@@ -1,6 +1,5 @@
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import CustomCarouselDot from "../components/CustomCarouselDot";
+import CustomCarouselDot from "../CustomCarouselDot";
 import FeaturedProductsItem from "./FeaturedProductsItem";
 
 const FeaturedProductsCarousel = ({ products }) => {

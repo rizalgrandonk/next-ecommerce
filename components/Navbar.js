@@ -9,7 +9,7 @@ const Navbar = ({ categories }) => {
   const [activeNavbar, setActiveNavbar] = useState(false);
 
   const changeColor = () => {
-    if (window.scrollY >= 64) {
+    if (window.scrollY >= 30) {
       setActiveNavbar(true);
     } else {
       setActiveNavbar(false);
@@ -27,21 +27,23 @@ const Navbar = ({ categories }) => {
       }`}
     >
       <div className="container px-6 md:px-16 h-full mx-auto flex justify-between items-center">
-        <Link href="/">
-          <a className="block relative h-full w-24 ">
-            <Image
-              src={Logo}
-              alt=""
-              layout="fill"
-              objectFit="contain"
-              quality={100}
-            />
-          </a>
-        </Link>
+        <div className="h-full py-2">
+          <Link href="/">
+            <a className="block relative h-full w-20">
+              <Image
+                src={Logo}
+                alt=""
+                layout="fill"
+                objectFit="contain"
+                quality={100}
+              />
+            </a>
+          </Link>
+        </div>
         <div className="hidden h-full w-1/4 md:flex items-center justify-between">
           {categories.map((category) => (
             <Link key={category.slug} href={`/categories/${category.slug}`}>
-              <a className="hover:text-gray-300 font-medium uppercase">
+              <a className="hover:text-primary font-medium uppercase">
                 {category.name}
               </a>
             </Link>

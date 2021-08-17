@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { getProducts, getCategories } from "../lib/api";
-import FeaturedProductsCarousel from "../components/FeaturedProductsCarousel";
-import LatestProductsCarousel from "../components/LatestProductsCarousel";
-import CategoryCarousel from "../components/CategoriesCarousel";
+import FeaturedProductsCarousel from "../components/Home/FeaturedProductsCarousel";
+import LatestProductsCarousel from "../components/Home/LatestProductsCarousel";
+import CategoryCarousel from "../components/Home/CategoriesCarousel";
 
 export default function Home({ products, categories }) {
   const featuredProducts = products.filter(
@@ -17,21 +17,21 @@ export default function Home({ products, categories }) {
     <>
       <FeaturedProductsCarousel products={featuredProducts} />
       <div className="relative">
-        <span className="block w-2/5 h-1/4 md:h-2/5 absolute -right-0 -top-0 bg-secondary" />
+        <span className="block w-2/5 h-1/4 absolute right-0 top-0 bg-secondary" />
         <section
-          id="category"
-          className="container mx-auto px-6 md:px-16 pt-16 md:pt-24"
+          id="latest-product"
+          className="container mx-auto px-6 md:px-16 pt-16 md:pt-24 pb-10"
         >
-          <h2 className="text-3xl md:text-5xl w-max text-dark mb-10 font-semibold tracking-wide uppercase">
-            Categories
+          <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
+            Latest Products
           </h2>
-          <CategoryCarousel categories={categories} />
+          <LatestProductsCarousel products={latestProducts} />
         </section>
       </div>
 
-      <section className="w-full flex flex-col md:items-center md:flex-row space-y-10 mt-16 md:mt-24">
+      <section className="w-full flex flex-col md:items-center md:flex-row space-y-10 mt-12 mb-12">
         <div className="relative w-5/6 md:w-1/2 h-100 bg-secondary">
-          <div className="absolute w-full h-full -right-12 -bottom-12">
+          <div className="absolute w-[95%] h-[95%] -right-12 -bottom-12">
             <Image src="/banner.jpg" alt="" layout="fill" objectFit="cover" />
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function Home({ products, categories }) {
               Find your style
             </h3>
             <Link href="/products">
-              <a className="flex items-center justify-center my-10 text-2xl space-x-2">
+              <a className="flex items-center justify-center my-10 text-2xl space-x-2 text-primary hover:text-dark">
                 <span className="text-lg underline hover:text-dark">
                   See All Products
                 </span>
@@ -56,15 +56,15 @@ export default function Home({ products, categories }) {
       </section>
 
       <div className="relative">
-        <span className="block w-1/5 h-1/4 md:h-2/5 absolute -right-0 top-0 md:top-16 bg-secondary" />
+        <span className="block w-1/5 h-2/4 absolute -right-0 top-0 md:top-16 bg-secondary" />
         <section
-          id="latest-product"
-          className="container mx-auto px-6 md:px-16 pt-16 md:pt-36 pb-16"
+          id="category"
+          className="container mx-auto px-6 md:px-16 pt-10 md:pt-24 pb-10"
         >
-          <h2 className="text-3xl md:text-5xl w-max text-dark mb-10 font-semibold tracking-wide uppercase">
-            Latest Products
+          <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
+            Categories
           </h2>
-          <LatestProductsCarousel products={latestProducts} />
+          <CategoryCarousel categories={categories} />
         </section>
       </div>
     </>
@@ -80,5 +80,6 @@ export async function getStaticProps() {
       products,
       categories,
     },
+    revalidate: 1,
   };
 }

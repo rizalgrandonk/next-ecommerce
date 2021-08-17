@@ -1,6 +1,5 @@
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import CustomCarouselDot from "./CustomCarouselDot";
+import CustomCarouselDot from "../CustomCarouselDot";
 import LatestProductsItem from "./LatestProductsItem";
 
 const LatestProductsCarousel = ({ products }) => {
