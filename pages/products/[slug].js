@@ -7,14 +7,14 @@ import Link from "next/link";
 const Product = ({ product }) => {
   return (
     <>
-      <div className="w-full h-48 md:h-52 bg-secondary flex items-end">
+      <div className="w-full h-48 bg-secondary flex items-end">
         <div className="container mx-auto px-6 md:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
             {product.name}
           </h1>
         </div>
       </div>
-      <span className="block w-full h-12 rounded-b-full bg-secondary" />
+      <span className="block w-full h-12 rounded-b-xl bg-secondary" />
       <ImageCarousel images={product.image} />
       <div className="container mx-auto px-6 md:px-16 pt-10 pb-10 flex justify-between flex-col md:flex-row-reverse space-y-10 md:space-y-0">
         <div className="w-full md:w-2/6">

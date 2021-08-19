@@ -4,7 +4,7 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import { getProducts, getCategories } from "../lib/api";
 import FeaturedProductsCarousel from "../components/Home/FeaturedProductsCarousel";
 import LatestProductsCarousel from "../components/Home/LatestProductsCarousel";
-import CategoryCarousel from "../components/Home/CategoriesCarousel";
+import CategoryList from "../components/Home/CategoryList";
 
 export default function Home({ products, categories }) {
   const featuredProducts = products.filter(
@@ -19,13 +19,13 @@ export default function Home({ products, categories }) {
       <div className="relative">
         <span className="block w-2/5 h-1/4 absolute right-0 top-0 bg-secondary" />
         <section
-          id="latest-product"
-          className="container mx-auto px-6 md:px-16 pt-16 md:pt-24 pb-10"
+          id="category"
+          className="container mx-auto px-6 md:px-16 pt-10 md:pt-24 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
-            Latest Products
+            Categories
           </h2>
-          <LatestProductsCarousel products={latestProducts} />
+          <CategoryList categories={categories} />
         </section>
       </div>
 
@@ -58,13 +58,13 @@ export default function Home({ products, categories }) {
       <div className="relative">
         <span className="block w-1/5 h-2/4 absolute -right-0 top-0 md:top-16 bg-secondary" />
         <section
-          id="category"
-          className="container mx-auto px-6 md:px-16 pt-10 md:pt-24 pb-10"
+          id="latest-product"
+          className="container mx-auto px-6 md:px-16 pt-16 md:pt-24 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
-            Categories
+            Latest Products
           </h2>
-          <CategoryCarousel categories={categories} />
+          <LatestProductsCarousel products={latestProducts} />
         </section>
       </div>
     </>

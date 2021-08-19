@@ -26,7 +26,15 @@ const CategoryProducts = ({ category }) => {
           </a>
         </Link>
       </div>
-      <ProductList products={category.products} />;
+      {category.products.length > 0 ? (
+        <ProductList products={category.products} />
+      ) : (
+        <div className="min-h-[60vh] p-12">
+          <h3 className="text-4xl text-center font-semibold">
+            There is no products for this category
+          </h3>
+        </div>
+      )}
     </>
   );
 };

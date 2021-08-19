@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { useCart } from "react-use-cart";
 import { getMediaURL } from "../../lib/api";
 import { priceFormatter } from "../../lib/formater";
 
 const FeaturedProductsItem = ({ product }) => {
+  const { addItem, inCart } = useCart();
+
   return (
     <div
       className="relative flex items-center w-full h-screen bg-center bg-cover"
@@ -19,7 +22,11 @@ const FeaturedProductsItem = ({ product }) => {
           {priceFormatter.format(product.price)}
         </p>
         <p className="hidden md:block my-4">{product.description}</p>
-        <button className="inline-block mr-4 px-5 py-3 bg-primary hover:bg-opacity-80 font-semibold tracking-wider">
+        <button
+          className="inline-block mr-4 px-5 py-3 bg-primary hover:bg-opacity-80 font-semibold tracking-wider disabled:bg-gray-400"
+          onClick={() => addItem(product)}
+          disabled={inCart(product.id)}
+        >
           ADD TO CART
         </button>
         <Link href={`/products/${product.slug}`}>

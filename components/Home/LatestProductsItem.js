@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { useCart } from "react-use-cart";
 import { FaRegHeart } from "react-icons/fa";
 import { getMediaURL } from "../../lib/api";
 import { priceFormatter } from "../../lib/formater";
 
 const LatestProductsItem = ({ product }) => {
+  const { addItem, inCart } = useCart();
+
   return (
     <div className="block w-full h-[80vh] md:h-screen px-1 md:px-8">
       <div className="relative w-full h-full shadow-md overflow-hidden group">
@@ -31,7 +34,11 @@ const LatestProductsItem = ({ product }) => {
               </Link>
             </div>
             <div className="flex justify-between items-center space-x-4 text-white w-full h-16 -mb-16 p-4 group-hover:mb-0 bg-primary transition-all duration-500">
-              <button className="inline-block w-3/4 px-3 py-2 bg-secondary hover:bg-opacity-80 font-semibold tracking-wider">
+              <button
+                className="inline-block w-3/4 px-3 py-2 bg-secondary hover:bg-opacity-80 font-semibold tracking-wider disabled:bg-gray-400"
+                onClick={() => addItem(product)}
+                disabled={inCart(product.id)}
+              >
                 ADD TO CART
               </button>
               <button className="inline-block font-semibold text-secondary text-4xl hover:scale-125 transition-all">
