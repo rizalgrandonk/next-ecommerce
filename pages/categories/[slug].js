@@ -15,7 +15,7 @@ const CategoryProducts = ({ category }) => {
         <span className="absolute top-0 left-0  block w-full h-full bg-black/50" />
         <div className="text-white text-center z-10 p-16 w-1/2 bg-black/70">
           <h3 className="text-6xl uppercase font-bold">{category.name}</h3>
-          <p className="text-3xl mt-6">Find Your Style</p>
+          <p className="text-3xl text-primary mt-6">Find Your Style</p>
         </div>
       </div>
       <div className="container mx-auto pt-8 px-6 md:px-16">

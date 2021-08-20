@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useCart } from "react-use-cart";
 import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "../contexts/CartContext";
 import Logo from "../public/logo.png";
 import { useEffect, useState } from "react";
 
 const Navbar = ({ categories }) => {
-  const { totalItems } = useCart();
   const [activeNavbar, setActiveNavbar] = useState(false);
+  const { totalItems } = useCart();
 
   const changeColor = () => {
     if (window.scrollY >= 30) {
@@ -41,7 +41,7 @@ const Navbar = ({ categories }) => {
             </a>
           </Link>
         </div>
-        <div className="hidden h-full w-1/2 md:flex items-center justify-between">
+        <div className="hidden h-full w-1/2 lg:flex items-center justify-between">
           {categories.map((category) => (
             <Link key={category.slug} href={`/categories/${category.slug}`}>
               <a className="hover:text-primary font-medium uppercase">
@@ -51,14 +51,22 @@ const Navbar = ({ categories }) => {
           ))}
         </div>
         <Link href="/cart">
-          <a className="relative text-3xl">
-            <FaShoppingCart />
-            {totalItems > 0 && (
+          {totalItems > 0 ? (
+            <a className="relative">
+              <span className="text-3xl">
+                <FaShoppingCart />
+              </span>
               <span className="absolute -right-1 -top-1 block h-5 w-5 text-sm text-center bg-red-600 rounded-full">
                 {totalItems}
               </span>
-            )}
-          </a>
+            </a>
+          ) : (
+            <a className="relative">
+              <span className="text-3xl">
+                <FaShoppingCart />
+              </span>
+            </a>
+          )}
         </Link>
       </div>
     </nav>

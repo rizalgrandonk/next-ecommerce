@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useCart } from "react-use-cart";
+import { useCart } from "../../contexts/CartContext";
 import { FaRegHeart } from "react-icons/fa";
 import { getMediaURL } from "../../lib/api";
 import { priceFormatter } from "../../lib/formater";
@@ -35,7 +35,7 @@ const LatestProductsItem = ({ product }) => {
             </div>
             <div className="flex justify-between items-center space-x-4 text-white w-full h-16 -mb-16 p-4 group-hover:mb-0 bg-primary transition-all duration-500">
               <button
-                className="inline-block w-3/4 px-3 py-2 bg-secondary hover:bg-opacity-80 font-semibold tracking-wider disabled:bg-gray-400"
+                className="inline-block w-3/4 px-3 py-2 bg-secondary hover:bg-opacity-80 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none"
                 onClick={() => addItem(product)}
                 disabled={inCart(product.id)}
               >

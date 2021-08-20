@@ -1,27 +1,34 @@
+import Link from "next/link";
 import marked from "marked";
 import { getProducts } from "../../lib/api";
 import { priceFormatter } from "../../lib/formater";
 import ImageCarousel from "../../components/Products/ImageCarousel";
-import Link from "next/link";
+import { useCart } from "../../contexts/CartContext";
 
 const Product = ({ product }) => {
+  const { addItem, inCart } = useCart();
+
   return (
     <>
-      <div className="w-full h-48 bg-secondary flex items-end">
+      <div className="w-full h-44 bg-secondary flex items-end">
         <div className="container mx-auto px-6 md:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
             {product.name}
           </h1>
         </div>
       </div>
-      <span className="block w-full h-12 rounded-b-xl bg-secondary" />
+      <span className="block w-full h-8 rounded-b-lg bg-secondary" />
       <ImageCarousel images={product.image} />
-      <div className="container mx-auto px-6 md:px-16 pt-10 pb-10 flex justify-between flex-col md:flex-row-reverse space-y-10 md:space-y-0">
+      <div className="container mx-auto px-6 md:px-16 pt-4 pb-10 flex justify-between flex-col md:flex-row-reverse space-y-10 md:space-y-0">
         <div className="w-full md:w-2/6">
           <p className="text-5xl mb-8 font-semibold">
             {priceFormatter.format(product.price)}
           </p>
-          <button className="inline-block text-white text-xl w-full px-3 py-4 bg-secondary hover:bg-opacity-90 font-semibold tracking-wider">
+          <button
+            className="inline-block text-white text-xl w-full px-3 py-4 bg-primary hover:bg-opacity-90 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none"
+            onClick={() => addItem(product)}
+            disabled={inCart(product.id)}
+          >
             ADD TO CART
           </button>
           <h3 className="text-3xl font-semibold mb-4 mt-16">Categories</h3>

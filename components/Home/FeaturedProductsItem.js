@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useCart } from "react-use-cart";
+import { useCart } from "../../contexts/CartContext";
 import { getMediaURL } from "../../lib/api";
 import { priceFormatter } from "../../lib/formater";
 
@@ -23,7 +23,7 @@ const FeaturedProductsItem = ({ product }) => {
         </p>
         <p className="hidden md:block my-4">{product.description}</p>
         <button
-          className="inline-block mr-4 px-5 py-3 bg-primary hover:bg-opacity-80 font-semibold tracking-wider disabled:bg-gray-400"
+          className="inline-block mr-4 px-5 py-3 bg-primary hover:bg-opacity-80 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none"
           onClick={() => addItem(product)}
           disabled={inCart(product.id)}
         >

@@ -1,6 +1,6 @@
 import "tailwindcss/tailwind.css";
 import "react-multi-carousel/lib/styles.css";
-import { CartProvider } from "react-use-cart";
+import { CartProvider } from "../contexts/CartContext";
 import "../styles/global.css";
 import App from "next/app";
 import { getCategories } from "../lib/api";
