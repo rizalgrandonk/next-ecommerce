@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { useCart } from "../contexts/CartContext";
+import { useCart } from "../../contexts/CartContext";
 import { FaMinusSquare, FaPlusSquare, FaTrash } from "react-icons/fa";
-import { getMediaURL } from "../lib/api";
-import { priceFormatter } from "../lib/formater";
+import { getMediaURL } from "../../lib/api";
+import { priceFormatter } from "../../lib/formater";
 
 const CartItem = ({ product }) => {
   const { updateItemQuantity, updateItem, removeItem } = useCart();
@@ -36,7 +36,8 @@ const CartItem = ({ product }) => {
               </label>
               <select
                 id="size"
-                className="bg-gray-200 px-2 md:text-lg font-medium rounded"
+                className="bg-transparent md:text-lg font-medium border-b-2 border-primary"
+                value={product.size}
                 onChange={(e) =>
                   updateItem(product.id, { size: e.target.value })
                 }
@@ -45,11 +46,7 @@ const CartItem = ({ product }) => {
                   Sizes
                 </option>
                 {product.sizeOptions.map((option) => (
-                  <option
-                    selected={option.size == product.size}
-                    key={option.id}
-                    value={option.size}
-                  >
+                  <option key={option.id} value={option.size}>
                     {option.size}
                   </option>
                 ))}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useCart } from "../contexts/CartContext";
-import CartItem from "../components/CartItem";
+import CartItem from "../components/Cart/CartItem";
 import { priceFormatter } from "../lib/formater";
 
 const Cart = () => {
@@ -34,21 +35,21 @@ const Cart = () => {
         </div>
       </div>
       <span className="block w-full h-8 rounded-b-xl bg-secondary" />
-      <div className="container mx-auto px-4 md:px-16 pt-4 pb-10 flex flex-col lg:flex-row justify-between">
+      <div className="container mx-auto px-4 md:px-16 pt-4 pb-10 flex flex-col lg:flex-row justify-between gap-4">
         {isEmpty ? (
-          <div className="w-full lg:w-3/5 lg:p-2">
+          <div className="w-full lg:w-3/5">
             <div className="flex justify-center items-center w-full h-40 bg-white rounded-md overflow-hidden lg:p-4 mb-4 shadow-lg">
               <h2 className="text-3xl font-semibold">Your Cart Is Empty</h2>
             </div>
           </div>
         ) : (
-          <div className="w-full lg:w-3/5 lg:p-2">
+          <div className="w-full lg:w-3/5">
             {items.map((item) => (
               <CartItem key={item.id} product={item} setError={setError} />
             ))}
           </div>
         )}
-        <div className="md:w-2/5 lg:p-2">
+        <div className="md:w-2/5">
           <div className="flex flex-col w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Summary</h3>
             <div className="w-full flex justify-between mb-4">
@@ -60,12 +61,14 @@ const Cart = () => {
               </span>
             </div>
             <hr className="mb-4" />
-            <button
-              disabled={error || isEmpty}
-              className="text-white px-5 py-3 mb-4 bg-primary disabled:bg-gray-400 hover:bg-opacity-90 font-semibold tracking-wider disabled:pointer-events-none"
-            >
-              Checkout
-            </button>
+            <Link href="/checkout">
+              <a
+                disabled={error || isEmpty}
+                className="block text-center text-white px-5 py-3 mb-4 bg-primary disabled:bg-gray-400 hover:bg-opacity-90 font-semibold tracking-wider disabled:pointer-events-none"
+              >
+                Checkout
+              </a>
+            </Link>
             <button
               onClick={emptyCart}
               disabled={isEmpty}
