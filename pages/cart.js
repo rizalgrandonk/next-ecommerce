@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useCart } from "../contexts/CartContext";
-import CartItem from "../components/Cart/CartItem";
-import { priceFormatter } from "../lib/formater";
+import { useRouter } from "next/router";
+import { useCart } from "@/contexts/CartContext";
+import CartItem from "@/components/Cart/CartItem";
+import { priceFormatter } from "@/lib/formater";
+import Meta from "@/components/Meta";
 
 const Cart = () => {
   const [error, setError] = useState(true);
   const { items, emptyCart, isEmpty, cartTotal, totalItems } = useCart();
+  const router = useRouter();
 
   useEffect(() => {
     const errorCheck = () => {
@@ -16,26 +18,34 @@ const Cart = () => {
           errCount++;
         }
       });
+
       if (errCount > 0) {
-        return true;
+        setError(true);
+      } else {
+        setError(false);
       }
-      return false;
     };
 
-    setError(errorCheck());
+    errorCheck();
   }, [items]);
+
+  const seo = {
+    title: "Cart | Grandonk Merch",
+    keywords: "merch, clothing, brand, cart",
+  };
 
   return (
     <>
+      <Meta seo={seo} />
       <div className="w-full h-44 bg-secondary flex items-end">
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="container mx-auto px-6 lg:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
             Your Shopping Cart
           </h1>
         </div>
       </div>
       <span className="block w-full h-8 rounded-b-xl bg-secondary" />
-      <div className="container mx-auto px-4 md:px-16 pt-4 pb-10 flex flex-col lg:flex-row justify-between gap-4">
+      <div className="container mx-auto px-4 lg:px-16 pt-4 pb-10 flex flex-col lg:flex-row justify-between gap-4">
         {isEmpty ? (
           <div className="w-full lg:w-3/5">
             <div className="flex justify-center items-center w-full h-40 bg-white rounded-md overflow-hidden lg:p-4 mb-4 shadow-lg">
@@ -49,7 +59,7 @@ const Cart = () => {
             ))}
           </div>
         )}
-        <div className="md:w-2/5">
+        <div className="w-full lg:w-2/5">
           <div className="flex flex-col w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Summary</h3>
             <div className="w-full flex justify-between mb-4">
@@ -61,14 +71,13 @@ const Cart = () => {
               </span>
             </div>
             <hr className="mb-4" />
-            <Link href="/checkout">
-              <a
-                disabled={error || isEmpty}
-                className="block text-center text-white px-5 py-3 mb-4 bg-primary disabled:bg-gray-400 hover:bg-opacity-90 font-semibold tracking-wider disabled:pointer-events-none"
-              >
-                Checkout
-              </a>
-            </Link>
+            <button
+              onClick={() => router.push("/checkout")}
+              disabled={error || isEmpty}
+              className="block text-center text-white px-5 py-3 mb-4 bg-primary disabled:bg-gray-400 hover:bg-opacity-90 font-semibold tracking-wider disabled:pointer-events-none"
+            >
+              Checkout
+            </button>
             <button
               onClick={emptyCart}
               disabled={isEmpty}

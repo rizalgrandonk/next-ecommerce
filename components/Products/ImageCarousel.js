@@ -1,6 +1,7 @@
 import Carousel from "react-multi-carousel";
+import Image from "next/image";
 import CustomCarouselDot from "../CustomCarouselDot";
-import { getMediaURL } from "../../lib/api";
+import { getMediaURL } from "@/lib/api";
 
 const ImageCarousel = ({ images }) => {
   const responsive = {
@@ -34,12 +35,18 @@ const ImageCarousel = ({ images }) => {
       >
         {images.map((image) => (
           <div key={image.id} className="p-4 md:p-0">
-            <div
-              className="h-[80vh] bg-center bg-no-repeat bg-contain"
-              style={{
-                backgroundImage: `url(${getMediaURL(image.formats.large)})`,
-              }}
-            ></div>
+            <div className="h-[80vh] bg-center bg-no-repeat bg-contain">
+              <Image
+                src={getMediaURL(image.formats.large)}
+                placeholder="blur"
+                blurDataURL={getMediaURL(image.formats.thumbnail)}
+                alt=""
+                layout="fill"
+                objectFit="contain"
+                objectPosition="center"
+                loading="lazy"
+              />
+            </div>
           </div>
         ))}
       </Carousel>

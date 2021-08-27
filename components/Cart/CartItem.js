@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { useCart } from "../../contexts/CartContext";
+import Image from "next/image";
 import { FaMinusSquare, FaPlusSquare, FaTrash } from "react-icons/fa";
-import { getMediaURL } from "../../lib/api";
-import { priceFormatter } from "../../lib/formater";
+import { useCart } from "@/contexts/CartContext";
+import { getMediaURL } from "@/lib/api";
+import { priceFormatter } from "@/lib/formater";
 
 const CartItem = ({ product }) => {
   const { updateItemQuantity, updateItem, removeItem } = useCart();
@@ -10,14 +11,18 @@ const CartItem = ({ product }) => {
   return (
     <div className="flex w-full h-60 lg:h-44 bg-white rounded-md overflow-hidden p-2 mb-4 shadow-lg">
       <Link href={`/products/${product.slug}`}>
-        <a
-          className="block h-full w-2/5 md:w-1/5 bg-cover rounded bg-center"
-          style={{
-            backgroundImage: `url(${getMediaURL(
-              product.image[0].formats.medium
-            )})`,
-          }}
-        ></a>
+        <a className="relative block h-full w-2/5 md:w-1/5 bg-cover rounded bg-center overflow-hidden">
+          <Image
+            src={getMediaURL(product.image[0].formats.small)}
+            alt={product.name}
+            placeholder="blur"
+            blurDataURL={getMediaURL(product.image[0].formats.thumbnail)}
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            loading="lazy"
+          />
+        </a>
       </Link>
       <div className="h-full flex-grow px-4 py-1 flex flex-col justify-between items-start lg:items-stretch">
         <div className="flex-grow">
@@ -28,7 +33,7 @@ const CartItem = ({ product }) => {
             {priceFormatter.format(product.price)}
           </p>
         </div>
-        <div className="flex flex-col lg:flex-row flex-grow justify-between items-end">
+        <div className="flex flex-col lg:flex-row flex-grow justify-between md:items-end">
           <div>
             <div className="flex items-center">
               <label htmlFor="size" className="md:text-lg mr-2">
@@ -36,7 +41,7 @@ const CartItem = ({ product }) => {
               </label>
               <select
                 id="size"
-                className="bg-transparent md:text-lg font-medium border-b-2 border-primary"
+                className="bg-transparent md:text-lg font-medium border-b-2 border-primary focus:outline-none"
                 value={product.size}
                 onChange={(e) =>
                   updateItem(product.id, { size: e.target.value })

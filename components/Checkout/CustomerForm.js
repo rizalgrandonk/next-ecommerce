@@ -1,93 +1,109 @@
 import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import FormInput from "../FormInput";
+import FormSelect from "../FormSelect";
+import { getCost } from "@/lib/api";
+import { priceFormatter } from "@/lib/formater";
+import LoadingSpinner from "../LoadingSpinner";
 
-import { getProvince, getCity, getCost } from "../../lib/api";
-import { priceFormatter } from "../../lib/formater";
+const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
+  const {
+    setValue,
+    watch,
+    register,
+    formState: { errors },
+  } = useFormContext();
 
-const CustomerForm = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
+  const watchProvice = watch("province");
+  const watchCity = watch("city");
+  const watchService = watch("service");
+
+  const [isLoading, setIsLoading] = useState(false);
   const [provinceList, setProvinceList] = useState([]);
-  const [city, setCity] = useState("");
   const [cityList, setCityList] = useState([]);
-  const [shippingOption, setShippingOption] = useState("");
   const [shippingOptionList, setShippingOptionList] = useState([]);
   const [shippingPrice, setShippingPrice] = useState("");
   const [shippingDuration, setShippingDuration] = useState("");
 
-  const fecthProvince = async () => {
-    const data = await getProvince();
-
-    setProvinceList(data);
-    setProvince(data[0].province_id);
-  };
-
   useEffect(() => {
-    fecthProvince();
-  }, []);
-
-  useEffect(() => {
-    const fecthCity = async () => {
-      const data = await getCity(`?province=${province}`);
-
-      setCityList(data);
-      setCity(data[0].city_id);
+    const fecthProvince = () => {
+      setProvinceList(allProvince);
+      setValue("province", allProvince[0].province_id);
     };
 
-    if (province) fecthCity();
-  }, [province]);
+    fecthProvince();
+  }, [setValue, allProvince]);
+
+  useEffect(() => {
+    const fecthCity = () => {
+      const provinceCity = allCities.filter(
+        (city) => city.province_id == watchProvice
+      );
+      const cities = provinceCity.map((city) => {
+        return { ...city, label: `${city.type} ${city.city_name}` };
+      });
+      setCityList(cities);
+      setValue("city", cities[0].city_id);
+    };
+
+    if (watchProvice) fecthCity();
+  }, [watchProvice, setValue, allCities]);
 
   useEffect(() => {
     const fecthCost = async () => {
-      const data = await getCost(city);
+      setIsLoading(true);
+      try {
+        const data = await getCost(watchCity);
 
-      setShippingOptionList(data[0].costs);
-      setShippingOption(data[0].costs[0].service);
+        setShippingOptionList(data[0].costs);
+        setValue("service", data[0].costs[0].service);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    if (city) fecthCost();
-  }, [city]);
+    if (watchCity) fecthCost();
+  }, [watchCity, setValue]);
 
   useEffect(() => {
     const getShippingDetails = () => {
       const data = shippingOptionList.find(
-        (option) => option.service == shippingOption
+        (option) => option.service == watchService
       );
 
       setShippingPrice(data.cost[0].value);
       setShippingDuration(data.cost[0].etd);
+
+      setValue("shipping_price", data.cost[0].value);
     };
 
-    if (shippingOption) getShippingDetails();
-  }, [shippingOption, shippingOptionList]);
+    if (watchService) getShippingDetails();
+  }, [watchService, shippingOptionList, setValue]);
 
   return (
     <>
       <h1 className="text-3xl font-semibold text-gray-900 mb-10">
         Customer Shipping Data
       </h1>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="flex flex-wrap w-full">
           <div className="pr-2 md:px-4 mb-10 w-1/2">
             <FormInput
-              id="first-name"
+              id="first_name"
               type="text"
               label="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              register={register}
+              errors={errors}
             />
           </div>
           <div className="pl-2 md:px-4 mb-10 w-1/2">
             <FormInput
-              id="last-name"
+              id="last_name"
               type="text"
               label="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              register={register}
+              errors={errors}
             />
           </div>
           <div className="md:px-4 mb-8 w-full md:w-1/2">
@@ -95,18 +111,18 @@ const CustomerForm = () => {
               id="email"
               type="email"
               label="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              register={register}
+              errors={errors}
             />
             <span className="text-xs text-gray-500">Use an active email</span>
           </div>
           <div className="md:px-4 mb-10 w-full md:w-1/2">
             <FormInput
-              id="phone-number"
+              id="phone"
               type="text"
               label="Phone Number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              register={register}
+              errors={errors}
             />
           </div>
           <div className="md:px-4 mb-10 w-full md:w-full">
@@ -114,99 +130,96 @@ const CustomerForm = () => {
               id="address"
               type="text"
               label="Detail Address (District, Street Name, etc)"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              register={register}
+              errors={errors}
+            />
+          </div>
+          <div className="hidden md:px-4 mb-10 w-full md:w-full">
+            <FormInput
+              id="shipping_price"
+              type="text"
+              label="Shipping Price"
+              register={register}
+              errors={errors}
             />
           </div>
 
           <div className="md:px-4 mb-10 w-full md:w-1/2">
-            <div className="w-full">
-              <label htmlFor="province" className="text-gray-600 text-sm">
-                Select Province
-              </label>
-              <select
-                value={province}
-                onChange={(e) => setProvince(e.target.value)}
-                id="province"
-                className="h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                required
-              >
-                {provinceList.map((province) => (
-                  <option
-                    key={province.province_id}
-                    value={province.province_id}
-                  >
-                    {province.province}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FormSelect
+              id="province"
+              label="Province"
+              list={provinceList}
+              idField="province_id"
+              labelField="province"
+              register={register}
+              errors={errors}
+            />
           </div>
 
           <div className="md:px-4 mb-10 w-full md:w-1/2">
-            <div className="w-full">
-              <label htmlFor="city" className="text-gray-600 text-sm">
-                Select City
-              </label>
-              <select
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                id="city"
-                className="h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                required
-              >
-                {cityList.map((city) => (
-                  <option key={city.city_id} value={city.city_id}>
-                    {`${city.type} ${city.city_name}`}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <FormSelect
+              id="city"
+              label="City"
+              list={cityList}
+              idField="city_id"
+              labelField="label"
+              register={register}
+              errors={errors}
+            />
           </div>
 
-          <div className="md:px-4 mb-10 w-full md:w-1/2">
-            <div className="w-full">
-              <label htmlFor="city" className="text-gray-600 text-sm">
-                Select Shipping Option (JNE)
-              </label>
-              <select
-                value={shippingOption}
-                onChange={(e) => setShippingOption(e.target.value)}
-                id="shipping-option"
-                className="h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary"
-                required
-              >
-                {shippingOptionList.map((option) => (
-                  <option key={option.service} value={option.service}>
-                    {option.service}
-                  </option>
-                ))}
-              </select>
+          {isLoading ? (
+            <div className="md:px-4 w-full h-32">
+              <LoadingSpinner />
             </div>
-          </div>
-
-          <div className="md:px-4 mb-10 w-full md:w-1/2">
-            <div className="w-full">
-              <div className="flex w-full justify-between mb-4">
-                <p className="text-gray-600 text-sm">Shipping Price</p>
-                <span className="font-medium">
-                  {priceFormatter.format(shippingPrice)}
-                </span>
+          ) : (
+            <>
+              <div className="md:px-4 mb-10 w-full md:w-1/2">
+                <FormSelect
+                  id="service"
+                  label="Shipping Option (JNE)"
+                  list={shippingOptionList}
+                  idField="service"
+                  labelField="service"
+                  register={register}
+                  errors={errors}
+                />
               </div>
-              <div className="flex w-full justify-between">
-                <p className="text-gray-600 text-sm">Estimated Shipping Time</p>
-                <span className="font-medium">{shippingDuration} Days</span>
+
+              <div className="md:px-4 mb-10 w-full md:w-1/2">
+                <div className="w-full">
+                  <div className="flex w-full justify-between mb-4">
+                    <p className="text-gray-600 text-sm">Shipping Price</p>
+                    <span className="font-medium">
+                      {priceFormatter.format(shippingPrice)}
+                    </span>
+                  </div>
+                  <div className="flex w-full justify-between">
+                    <p className="text-gray-600 text-sm">
+                      Estimated Shipping Time
+                    </p>
+                    <span className="font-medium">{shippingDuration} Days</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
 
         <div className="flex justify-center">
           <button
             type="sumbit"
-            className="px-4 py-2 rounded bg-primary hover:bg-opacity-90 text-white font-semibold text-center block w-full md:w-1/2 focus:outline-none focus:ring focus:ring-offset-2 focus:ring-primary focus:ring-opacity-80 cursor-pointer"
+            className="flex justify-center items-center px-4 py-2 rounded-sm bg-primary hover:bg-opacity-90 text-white font-semibold text-center w-full md:w-1/2  cursor-pointer disabled:bg-gray-400 disabled:pointer-events-none"
+            disabled={isLoading || loadingPayment}
           >
-            Next
+            {loadingPayment ? (
+              <>
+                <span className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white mr-4"></span>
+                Processing
+              </>
+            ) : (
+              "NEXT"
+            )}
           </button>
         </div>
       </form>

@@ -1,17 +1,54 @@
 import Link from "next/link";
 import marked from "marked";
-import { getProducts } from "../../lib/api";
-import { priceFormatter } from "../../lib/formater";
-import ImageCarousel from "../../components/Products/ImageCarousel";
-import { useCart } from "../../contexts/CartContext";
+import { useRouter } from "next/router";
+import useSWR from "swr";
 
-const Product = ({ product }) => {
+import { getProducts, getMediaURL } from "@/lib/api";
+import { priceFormatter } from "@/lib/formater";
+import ImageCarousel from "@/components/Products/ImageCarousel";
+import { useCart } from "@/contexts/CartContext";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Meta from "@/components/Meta";
+
+const Product = (props) => {
+  const router = useRouter();
+  const slug = router.query.slug;
+
   const { addItem, inCart } = useCart();
+
+  const { data: product } = useSWR("product", () => getProducts(`/${slug}`), {
+    initialData: props.product,
+  });
+
+  const keywords = product.categories.reduce((acc, prev) => {
+    return `${acc}, ${prev.name.toLowerCase()}`;
+  }, "merch, clothing, brand");
+
+  const seo = {
+    title: `${product.name} | Grandonk Merch`,
+    keywords,
+    description: product.description,
+    shareImage: product.banner_image
+      ? getMediaURL(product.banner_image.formats.medium)
+      : getMediaURL(product.image[0].formats.medium),
+    article: true,
+  };
+
+  if (!product) {
+    return (
+      <>
+        <div className="w-full h-44 bg-secondary flex items-end"></div>
+        <span className="block w-full h-8 rounded-b-lg bg-secondary" />
+        <LoadingSpinner />
+      </>
+    );
+  }
 
   return (
     <>
+      <Meta seo={seo} />
       <div className="w-full h-44 bg-secondary flex items-end">
-        <div className="container mx-auto px-6 md:px-16">
+        <div className="container mx-auto px-6 lg:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
             {product.name}
           </h1>
@@ -19,9 +56,9 @@ const Product = ({ product }) => {
       </div>
       <span className="block w-full h-8 rounded-b-lg bg-secondary" />
       <ImageCarousel images={product.image} />
-      <div className="container mx-auto px-6 md:px-16 pt-4 pb-10 flex justify-between flex-col md:flex-row-reverse space-y-10 md:space-y-0">
+      <div className="container mx-auto px-6 lg:px-16 pt-4 pb-10 flex justify-between flex-col md:flex-row-reverse space-y-10 md:space-y-0">
         <div className="w-full md:w-2/6">
-          <p className="text-5xl mb-8 font-semibold">
+          <p className="text-4xl text-right mb-8 font-semibold">
             {priceFormatter.format(product.price)}
           </p>
           <button
@@ -72,6 +109,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx) {
   const { slug } = ctx.params;
+
   const product = await getProducts(`/${slug}`);
 
   return {

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getMediaURL } from "../../lib/api";
+import Image from "next/image";
+import { getMediaURL } from "@/lib/api";
 
 const CategoriesItem = ({ category, index }) => {
   let span = "";
@@ -24,13 +25,20 @@ const CategoriesItem = ({ category, index }) => {
   return (
     <Link href={`/categories/${category.slug}`}>
       <a
-        className={`block w-full h-full transition-all duration-500 transform hover:scale-95 bg-cover bg-top ${span}`}
-        style={{
-          backgroundImage: `url(${getMediaURL(category.image.formats.small)})`,
-        }}
+        className={`relative block w-full h-full transition-all duration-500 transform hover:scale-95 bg-cover bg-top ${span}`}
       >
-        <div className="w-full h-full flex justify-center items-center bg-black/50">
-          <h2 className="text-5xl text-white text-center uppercase font-semibold">
+        <Image
+          src={getMediaURL(category.image.formats.medium)}
+          alt={category.name}
+          placeholder="blur"
+          blurDataURL={getMediaURL(category.image.formats.thumbnail)}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="top"
+          loading="lazy"
+        />
+        <div className="relative w-full h-full flex justify-center items-center bg-black/50">
+          <h2 className="text-3xl md:text-5xl text-white text-center uppercase font-semibold">
             {category.name}
           </h2>
         </div>

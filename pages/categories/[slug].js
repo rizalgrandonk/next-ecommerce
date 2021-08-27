@@ -1,24 +1,59 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FaAngleDoubleRight } from "react-icons/fa";
-import { getCategories, getMediaURL } from "../../lib/api";
-import ProductList from "../../components/Products/ProductList";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { getCategories, getMediaURL } from "@/lib/api";
+import ProductList from "@/components/Products/ProductList";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Meta from "@/components/Meta";
 
-const CategoryProducts = ({ category }) => {
+const CategoryProducts = (props) => {
+  const router = useRouter();
+  const slug = router.query.slug;
+
+  const { data: category } = useSWR(
+    "category",
+    () => getCategories(`/${slug}`),
+    { initialData: props.category }
+  );
+
+  const seo = {
+    title: `${category.name} | Grandonk Merch`,
+    keywords: "merch, clothing, brand, categories",
+    shareImage: getMediaURL(category.image.formats.medium),
+  };
+
+  if (!category) {
+    return (
+      <>
+        <div className="w-full h-44 bg-secondary flex items-end"></div>
+        <span className="block w-full h-8 rounded-b-lg bg-secondary" />
+        <LoadingSpinner />
+      </>
+    );
+  }
+
   return (
     <>
-      <div
-        className="relative flex items-center justify-center w-full h-[80vh] bg-top bg-cover"
-        style={{
-          backgroundImage: `url(${getMediaURL(category.image.formats.large)})`,
-        }}
-      >
+      <Meta seo={seo} />
+      <div className="relative flex items-center justify-center w-full h-[80vh] px-6 bg-top bg-cover">
+        <Image
+          src={getMediaURL(category.image.formats.large)}
+          alt={category.name}
+          blurDataURL={getMediaURL(category.image.formats.large)}
+          placeholder="blur"
+          layout="fill"
+          objectFit="cover"
+          loading="lazy"
+        />
         <span className="absolute top-0 left-0  block w-full h-full bg-black/50" />
-        <div className="text-white text-center z-10 p-16 w-1/2 bg-black/70">
+        <div className="text-white text-center z-10 p-16 w-full md:w-1/2 bg-black/70">
           <h3 className="text-6xl uppercase font-bold">{category.name}</h3>
           <p className="text-3xl text-primary mt-6">Find Your Style</p>
         </div>
       </div>
-      <div className="container mx-auto pt-8 px-6 md:px-16">
+      <div className="container mx-auto pt-8 px-6 lg:px-16">
         <Link href="/products">
           <a className="flex items-center justify-end text-2xl space-x-2 text-primary hover:text-dark">
             <span className="text-lg hover:text-dark">All Products</span>
@@ -51,6 +86,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx) {
   const { slug } = ctx.params;
+
   const category = await getCategories(`/${slug}`);
 
   return {

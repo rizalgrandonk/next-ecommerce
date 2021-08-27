@@ -1,26 +1,45 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaAngleDoubleRight } from "react-icons/fa";
-import { getProducts, getCategories } from "../lib/api";
-import FeaturedProductsCarousel from "../components/Home/FeaturedProductsCarousel";
-import LatestProductsCarousel from "../components/Home/LatestProductsCarousel";
-import CategoryList from "../components/Home/CategoryList";
+import useSWR from "swr";
 
-export default function Home({ products, categories }) {
+import { getProducts, getCategories } from "@/lib/api";
+import FeaturedProductsCarousel from "@/components/Home/FeaturedProductsCarousel";
+import LatestProductsCarousel from "@/components/Home/LatestProductsCarousel";
+import CategoryList from "@/components/Home/CategoryList";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Banner from "../public/banner.jpg";
+import Meta from "@/components/Meta";
+
+export default function Home(props) {
+  const { data: products } = useSWR(
+    "products",
+    () => getProducts("?_sort=created_at:desc"),
+    { initialData: props.products }
+  );
+  const { data: categories } = useSWR("categories", () => getCategories(), {
+    initialData: props.categories,
+  });
+
   const featuredProducts = products.filter(
     (product) => product.featured === true
   );
 
   const latestProducts = products.length > 4 ? products.slice(0, 4) : products;
 
+  if (!products || !categories) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
+      <Meta />
       <FeaturedProductsCarousel products={featuredProducts} />
       <div className="relative">
         <span className="block w-2/5 h-1/4 absolute right-0 top-0 bg-secondary" />
         <section
           id="category"
-          className="container mx-auto px-6 md:px-16 pt-10 md:pt-24 pb-10"
+          className="container mx-auto px-6 lg:px-16 pt-10 md:pt-24 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
             Categories
@@ -32,11 +51,18 @@ export default function Home({ products, categories }) {
       <section className="w-full flex flex-col md:items-center md:flex-row space-y-10 mt-12 mb-12">
         <div className="relative w-5/6 md:w-1/2 h-100 bg-secondary">
           <div className="absolute w-[95%] h-[95%] -right-12 -bottom-12">
-            <Image src="/banner.jpg" alt="" layout="fill" objectFit="cover" />
+            <Image
+              src={Banner}
+              alt=""
+              placeholder="blur"
+              layout="fill"
+              objectFit="cover"
+              loading="lazy"
+            />
           </div>
         </div>
         <div className="w-full md:w-1/2 h-full flex justify-center items-center">
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <p className="text-sm text-center my-6">
               Get the most stylist products
             </p>
@@ -59,7 +85,7 @@ export default function Home({ products, categories }) {
         <span className="block w-1/5 h-2/4 absolute -right-0 top-0 md:top-16 bg-secondary" />
         <section
           id="latest-product"
-          className="container mx-auto px-6 md:px-16 pt-16 md:pt-24 pb-10"
+          className="container mx-auto px-6 lg:px-16 pt-16 md:pt-24 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
             Latest Products
@@ -80,6 +106,5 @@ export async function getStaticProps() {
       products,
       categories,
     },
-    revalidate: 1,
   };
 }
