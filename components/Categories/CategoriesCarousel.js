@@ -4,7 +4,7 @@ import CustomCarouselDot from "../CustomCarouselDot";
 import CategoriesItem from "./CategoriesItem";
 
 const CategoriesCarousel = ({ categories }) => {
-  const [currentSlide, setCurrentSlide] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(2);
 
   const responsive = {
     desktop: {
@@ -19,10 +19,6 @@ const CategoriesCarousel = ({ categories }) => {
       breakpoint: { max: 464, min: 0 },
       items: 1,
     },
-  };
-
-  const getCurrent = (slide) => {
-    console.log(slide);
   };
 
   return (

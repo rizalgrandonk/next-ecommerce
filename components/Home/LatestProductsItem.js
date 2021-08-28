@@ -4,7 +4,7 @@ import { useCart } from "@/contexts/CartContext";
 import { getMediaURL } from "@/lib/api";
 import { priceFormatter } from "@/lib/formater";
 
-const LatestProductsItem = ({ product }) => {
+const LatestProductsItem = ({ product, slide, currentSlide }) => {
   const { addItem, inCart } = useCart();
 
   return (
@@ -35,7 +35,11 @@ const LatestProductsItem = ({ product }) => {
                 <a className="block mt-5">{"Click for more detail >"}</a>
               </Link>
             </div>
-            <div className="flex justify-between items-center space-x-4 text-white w-full h-20 md:-mb-20 p-4 group-hover:mb-0 bg-primary transition-all duration-500">
+            <div
+              className={`flex justify-between items-center space-x-4 text-white w-full h-20 p-4 md:-mb-20 md:group-hover:mb-0 bg-primary transition-all duration-500 ${
+                currentSlide == slide ? "mb-0" : "-mb-20"
+              }`}
+            >
               <button
                 className="inline-block w-full h-full bg-secondary hover:bg-opacity-90 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none"
                 onClick={() => addItem(product)}

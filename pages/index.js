@@ -35,11 +35,19 @@ export default function Home(props) {
     <>
       <Meta />
       <FeaturedProductsCarousel products={featuredProducts} />
+
+      <div className="w-full py-16 flex flex-col justify-center items-center">
+        <h1 className="text-6xl md:text-7xl text-center font-light uppercase tracking-widest mb-2">
+          Grandonk Merch
+        </h1>
+        <span className="block w-2/3 md:w-1/2 h-2 bg-primary"></span>
+      </div>
+
       <div className="relative">
         <span className="block w-2/5 h-1/4 absolute right-0 top-0 bg-secondary" />
         <section
           id="category"
-          className="container mx-auto px-6 lg:px-16 pt-10 md:pt-24 pb-10"
+          className="container mx-auto px-6 lg:px-16 pt-10 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
             Categories
