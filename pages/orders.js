@@ -17,9 +17,10 @@ const Orders = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    setOrder(null);
     setErrorMessage("");
     setIsLoading(true);
-    const order = await getOrder(data.order_id);
+    const order = await getOrder(data.order_id, data.email);
     console.log(order);
     if (order.error) {
       setErrorMessage(order.message);
@@ -74,7 +75,7 @@ const Orders = () => {
       <div className="w-full h-44 bg-secondary flex items-end">
         <div className="container mx-auto px-6 lg:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
-            Order Transaction
+            Check Order Transaction
           </h1>
         </div>
       </div>
@@ -90,6 +91,15 @@ const Orders = () => {
                   id="order_id"
                   type="text"
                   label="Order ID"
+                  register={register}
+                  errors={errors}
+                />
+              </div>
+              <div className="mb-8 w-full md:w-5/6">
+                <FormInput
+                  id="email"
+                  type="email"
+                  label="Email Address"
                   register={register}
                   errors={errors}
                 />
@@ -117,16 +127,16 @@ const Orders = () => {
         {errorMessage && (
           <div className="w-full lg:w-1/2">
             <div className="flex flex-col w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
-              <h2 className="text-3xl font-semibold mb-2">{errorMessage}</h2>
+              <h2 className="text-3xl font-semibold mb-2">
+                Error checking order
+              </h2>
               <span className="block h-1 w-20 bg-primary mb-12"></span>
-              <p className="text-xl font-medium">
-                Please input valid Order ID !
-              </p>
+              <p className="text-xl">{errorMessage}</p>
             </div>
           </div>
         )}
         {order && (
-          <div className="w-full lg:w-7/12">
+          <div className="w-full lg:w-1/2">
             <div className="w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
               <h2 className="text-3xl font-semibold mb-3">Order Status</h2>
               <span className="block h-1 w-20 bg-primary mb-10"></span>
@@ -145,7 +155,7 @@ const Orders = () => {
                 Order Details
               </h2>
               <span className="block h-1 w-20 bg-primary mb-8"></span>
-              <div className="w-full text-lg">
+              <div className="w-full text-sm">
                 <div className="flex justify-between items-center w-full mb-2">
                   <span className="font-semibold">Order ID</span>
                   <span>{order.order_id}</span>
@@ -186,7 +196,7 @@ const Orders = () => {
                 Customer Details
               </h2>
               <span className="block h-1 w-20 bg-primary mb-8"></span>
-              <div className="w-full text-lg">
+              <div className="w-full text-sm">
                 <div className="flex justify-between items-center w-full mb-2">
                   <span className="font-semibold">Name</span>
                   <span>{`${order.customer.first_name} ${order.customer.last_name}`}</span>

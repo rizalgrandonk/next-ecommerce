@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaShoppingCart } from "react-icons/fa";
 import {
   RiBillFill,
   RiBillLine,
@@ -8,6 +7,7 @@ import {
   RiHome3Line,
   RiLayoutMasonryFill,
   RiLayoutMasonryLine,
+  RiShoppingCartLine,
   RiTShirt2Fill,
   RiTShirt2Line,
 } from "react-icons/ri";
@@ -38,12 +38,12 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed z-20 w-full h-20 text-white transition-all ${
+        className={`fixed z-20 w-full h-16 md:h-20 text-white transition-all ${
           activeNavbar ? "bg-secondary" : ""
         }`}
       >
         <div className="container px-6 lg:px-16 h-full mx-auto flex justify-between items-center">
-          <div className="h-full py-2">
+          <div className="h-full py-1.5">
             <Link href="/">
               <a className="block relative h-full w-24">
                 <Image
@@ -77,11 +77,11 @@ const Navbar = () => {
           </div>
           <Link href="/cart">
             <a className="relative p-2 rounded-full hover:bg-white/10">
-              <span className="text-3xl">
-                <FaShoppingCart />
+              <span className="text-4xl">
+                <RiShoppingCartLine />
               </span>
               {totalItems > 0 && (
-                <span className="absolute -right-1 -top-1 block h-5 w-5 text-sm text-center bg-red-600 rounded-full">
+                <span className="absolute right-0 top-1 block h-5 w-5 text-sm text-center bg-red-600 rounded-full">
                   {totalItems}
                 </span>
               )}

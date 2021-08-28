@@ -36,7 +36,7 @@ const Checkout = (props) => {
     }
     if (result.payment_type == "cstore") {
       return {
-        payment_type: `${result.payment_type} (${result.store})`,
+        payment_type: `${result.payment_type} (Alfamart / Indomaret)`,
         payment_code: result.payment_code,
       };
     }
@@ -164,6 +164,7 @@ export async function getStaticProps() {
       province,
       cities,
     },
+    revalidate: 300,
   };
 }
 

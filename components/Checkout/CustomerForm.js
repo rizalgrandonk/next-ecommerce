@@ -17,6 +17,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
   const watchProvice = watch("province");
   const watchCity = watch("city");
   const watchService = watch("service");
+  console.log(watchService);
 
   const [isLoading, setIsLoading] = useState(false);
   const [provinceList, setProvinceList] = useState([]);
@@ -54,7 +55,6 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
       setIsLoading(true);
       try {
         const data = await getCost(watchCity);
-
         setShippingOptionList(data[0].costs);
         setValue("service", data[0].costs[0].service);
         setIsLoading(false);
@@ -71,6 +71,13 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
       const data = shippingOptionList.find(
         (option) => option.service == watchService
       );
+
+      if (!data) {
+        setShippingPrice(0);
+        setShippingDuration(0);
+        setValue("shipping_price", 0);
+        return;
+      }
 
       setShippingPrice(data.cost[0].value);
       setShippingDuration(data.cost[0].etd);

@@ -37,10 +37,10 @@ export default function Home(props) {
       <FeaturedProductsCarousel products={featuredProducts} />
 
       <div className="w-full py-16 flex flex-col justify-center items-center">
-        <h1 className="text-6xl md:text-7xl text-center font-light uppercase tracking-widest mb-2">
+        <h1 className="text-5xl md:text-7xl text-center font-light uppercase tracking-widest mb-2">
           Grandonk Merch
         </h1>
-        <span className="block w-2/3 md:w-1/2 h-2 bg-primary"></span>
+        <span className="block w-1/2 h-2 bg-primary"></span>
       </div>
 
       <div className="relative">
@@ -114,5 +114,6 @@ export async function getStaticProps() {
       products,
       categories,
     },
+    revalidate: 1,
   };
 }
