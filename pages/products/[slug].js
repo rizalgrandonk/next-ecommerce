@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 
 import { getProducts, getMediaURL } from "@/lib/api";
-import { priceFormatter } from "@/lib/formater";
+import { localize, priceFormatter } from "@/lib/formater";
 import ImageCarousel from "@/components/Products/ImageCarousel";
 import { useCart } from "@/contexts/CartContext";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -12,6 +12,7 @@ import Meta from "@/components/Meta";
 
 const Product = (props) => {
   const router = useRouter();
+  const { locale } = router;
   const slug = router.query.slug;
 
   const { addItem, inCart } = useCart();
@@ -62,13 +63,15 @@ const Product = (props) => {
             {priceFormatter.format(product.price)}
           </p>
           <button
-            className="inline-block text-white text-xl w-full px-3 py-4 bg-primary hover:bg-opacity-90 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none"
+            className="inline-block text-white text-xl w-full px-3 py-4 bg-primary hover:bg-opacity-90 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none uppercase"
             onClick={() => addItem(product)}
             disabled={inCart(product.id)}
           >
-            ADD TO CART
+            {localize(locale, "addToCart")}
           </button>
-          <h3 className="text-3xl font-semibold mb-4 mt-16">Categories</h3>
+          <h3 className="text-3xl font-semibold mb-4 mt-16">
+            {localize(locale, "categories")}
+          </h3>
           <span className="block h-1 w-20 bg-primary"></span>
           <ul className="flex items-center py-6 px-1 mt-2">
             {product.categories.map((category) => (
@@ -84,7 +87,9 @@ const Product = (props) => {
           </ul>
         </div>
         <div className="w-full md:w-3/5">
-          <h3 className="text-3xl font-semibold mb-4">Product Detail</h3>
+          <h3 className="text-3xl font-semibold mb-4">
+            {localize(locale, "productDetail")}
+          </h3>
           <span className="block h-1 w-20 bg-primary"></span>
           <div className="prose max-w-none">
             <div
@@ -97,12 +102,19 @@ const Product = (props) => {
   );
 };
 
-export async function getStaticPaths() {
+export async function getStaticPaths({ locales }) {
   const products = await getProducts();
 
-  const paths = products.map((product) => ({
-    params: { slug: product.slug },
-  }));
+  let paths = [];
+  locales.forEach((locale) => {
+    paths = [
+      ...paths,
+      ...products.map((product) => ({
+        params: { slug: product.slug },
+        locale,
+      })),
+    ];
+  });
 
   return { paths, fallback: false };
 }

@@ -5,8 +5,12 @@ import ProductList from "@/components/Products/ProductList";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Meta from "@/components/Meta";
 import Banner from "../public/banner.jpg";
+import { localize } from "@/lib/formater";
+import { useRouter } from "next/router";
 
 const Products = (props) => {
+  const { locale } = useRouter();
+
   const { data: products } = useSWR(
     "products",
     () => getProducts("?_sort=created_at:desc"),
@@ -17,7 +21,7 @@ const Products = (props) => {
     return <LoadingSpinner />;
   }
   const seo = {
-    title: "Products | Grandonk Merch",
+    title: `${localize(locale, "products")} | Grandonk Merch`,
     keywords: "merch, clothing, brand, products",
   };
 
@@ -35,8 +39,13 @@ const Products = (props) => {
         />
         <span className="absolute top-0 left-0  block w-full h-full bg-black/50" />
         <div className="text-white z-10 p-6 md:p-0 md:pl-20 w-full md:w-7/12">
-          <h3 className="text-5xl uppercase font-bold">Find Your Style</h3>
-          <p className="text-2xl my-6">Get the most stylist products</p>
+          <h1 className="text-6xl uppercase font-bold mb-6">
+            {localize(locale, "products")}
+          </h1>
+          <h3 className="text-4xl capitalize font-semibold">
+            {localize(locale, "bannerTitle")}
+          </h3>
+          <p className="text-2xl my-6">{localize(locale, "bannerSubTitle")}</p>
         </div>
       </div>
       <ProductList products={products} />;

@@ -1,3 +1,6 @@
+import { localize } from "@/lib/formater";
+import { useRouter } from "next/router";
+
 const FormSelect = ({
   id,
   labelField,
@@ -7,6 +10,7 @@ const FormSelect = ({
   register,
   errors,
 }) => {
+  const { locale } = useRouter();
   return (
     <>
       <div className="w-full">
@@ -26,7 +30,9 @@ const FormSelect = ({
         </select>
       </div>
       {errors[id] && (
-        <p className="text-xs text-red-600">{label} is required</p>
+        <p className="text-xs text-red-600">
+          {`${label} ${localize(locale, "required")}`}
+        </p>
       )}
     </>
   );

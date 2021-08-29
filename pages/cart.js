@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useCart } from "@/contexts/CartContext";
 import CartItem from "@/components/Cart/CartItem";
-import { priceFormatter } from "@/lib/formater";
+import { localize, priceFormatter } from "@/lib/formater";
 import Meta from "@/components/Meta";
 
 const Cart = () => {
   const [error, setError] = useState(true);
   const { items, emptyCart, isEmpty, cartTotal, totalItems } = useCart();
   const router = useRouter();
+  const { locale } = router;
 
   useEffect(() => {
     const errorCheck = () => {
@@ -30,7 +31,7 @@ const Cart = () => {
   }, [items]);
 
   const seo = {
-    title: "Cart | Grandonk Merch",
+    title: `${localize(locale, "cart")} | Grandonk Merch`,
     keywords: "merch, clothing, brand, cart",
   };
 
@@ -40,7 +41,7 @@ const Cart = () => {
       <div className="w-full h-44 bg-secondary flex items-end">
         <div className="container mx-auto px-6 lg:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
-            Your Shopping Cart
+            {localize(locale, "yourCart")}
           </h1>
         </div>
       </div>
@@ -49,7 +50,9 @@ const Cart = () => {
         {isEmpty ? (
           <div className="w-full lg:w-3/5">
             <div className="flex justify-center items-center w-full h-40 bg-white rounded-md overflow-hidden lg:p-4 mb-4 shadow-lg">
-              <h2 className="text-3xl font-semibold">Your Cart Is Empty</h2>
+              <h2 className="text-3xl font-semibold">
+                {localize(locale, "yourCartEmpty")}
+              </h2>
             </div>
           </div>
         ) : (
@@ -61,10 +64,12 @@ const Cart = () => {
         )}
         <div className="w-full lg:w-2/5">
           <div className="flex flex-col w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
-            <h3 className="text-xl font-semibold mb-4">Summary</h3>
+            <h3 className="text-xl font-semibold mb-4">
+              {localize(locale, "summary")}
+            </h3>
             <div className="w-full flex justify-between mb-4">
               <span className="text-lg">
-                Sub Total ({totalItems} {totalItems > 1 ? "Items" : "Item"})
+                Sub Total ({`${totalItems} ${localize(locale, "items")}`})
               </span>
               <span className="text-lg font-semibold">
                 {priceFormatter.format(cartTotal)}
@@ -83,7 +88,7 @@ const Cart = () => {
               disabled={isEmpty}
               className="text-white px-5 py-3 bg-secondary disabled:bg-gray-400 hover:bg-opacity-90 font-semibold tracking-wider disabled:pointer-events-none"
             >
-              Empty Cart
+              {localize(locale, "emptyCart")}
             </button>
           </div>
         </div>

@@ -10,8 +10,12 @@ import CategoryList from "@/components/Home/CategoryList";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Banner from "../public/banner.jpg";
 import Meta from "@/components/Meta";
+import { useRouter } from "next/router";
+import { localize } from "@/lib/formater";
 
 export default function Home(props) {
+  const { locale } = useRouter();
+
   const { data: products } = useSWR(
     "products",
     () => getProducts("?_sort=created_at:desc"),
@@ -50,7 +54,7 @@ export default function Home(props) {
           className="container mx-auto px-6 lg:px-16 pt-10 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
-            Categories
+            {localize(locale, "categories")}
           </h2>
           <CategoryList categories={categories} />
         </section>
@@ -72,15 +76,15 @@ export default function Home(props) {
         <div className="w-full md:w-1/2 h-full flex justify-center items-center">
           <div className="w-full md:w-1/2">
             <p className="text-sm text-center my-6">
-              Get the most stylist products
+              {localize(locale, "bannerSubTitle")}
             </p>
             <h3 className="text-dark text-center text-6xl font-bold my-4">
-              Find your style
+              {localize(locale, "bannerTitle")}
             </h3>
             <Link href="/products">
               <a className="flex items-center justify-center my-10 text-2xl space-x-2 text-primary hover:text-dark">
                 <span className="text-lg underline hover:text-dark">
-                  See All Products
+                  {localize(locale, "allProducts")}
                 </span>
                 <FaAngleDoubleRight />
               </a>
@@ -96,7 +100,7 @@ export default function Home(props) {
           className="container mx-auto px-6 lg:px-16 pt-16 md:pt-24 pb-10"
         >
           <h2 className="text-3xl md:text-5xl w-1/2 text-dark mb-10 font-semibold tracking-wide uppercase">
-            Latest Products
+            {localize(locale, "latestProducts")}
           </h2>
           <LatestProductsCarousel products={latestProducts} />
         </section>

@@ -3,10 +3,13 @@ import { useFormContext } from "react-hook-form";
 import FormInput from "../FormInput";
 import FormSelect from "../FormSelect";
 import { getCost } from "@/lib/api";
-import { priceFormatter } from "@/lib/formater";
+import { localize, priceFormatter } from "@/lib/formater";
 import LoadingSpinner from "../LoadingSpinner";
+import { useRouter } from "next/router";
 
 const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
+  const { locale } = useRouter();
+
   const {
     setValue,
     watch,
@@ -17,7 +20,6 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
   const watchProvice = watch("province");
   const watchCity = watch("city");
   const watchService = watch("service");
-  console.log(watchService);
 
   const [isLoading, setIsLoading] = useState(false);
   const [provinceList, setProvinceList] = useState([]);
@@ -55,8 +57,12 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
       setIsLoading(true);
       try {
         const data = await getCost(watchCity);
-        setShippingOptionList(data[0].costs);
-        setValue("service", data[0].costs[0].service);
+        const options = data[0].costs.map((option) => ({
+          ...option,
+          label: `JNE ${option.service}`,
+        }));
+        setShippingOptionList(options);
+        setValue("service", options[0].service);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -90,16 +96,16 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold text-gray-900 mb-10">
-        Customer Shipping Data
-      </h1>
+      <h2 className="text-3xl font-semibold text-gray-900 mb-10">
+        {localize(locale, "customerData")}
+      </h2>
       <form onSubmit={onSubmit}>
         <div className="flex flex-wrap w-full">
           <div className="pr-2 md:px-4 mb-10 w-1/2">
             <FormInput
               id="first_name"
               type="text"
-              label="First Name"
+              label={localize(locale, "firstName")}
               register={register}
               errors={errors}
             />
@@ -108,7 +114,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
             <FormInput
               id="last_name"
               type="text"
-              label="Last Name"
+              label={localize(locale, "lastName")}
               register={register}
               errors={errors}
             />
@@ -117,20 +123,19 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
             <FormInput
               id="email"
               type="email"
-              label="Email"
+              label={localize(locale, "emailAddress")}
               register={register}
               errors={errors}
             />
             <span className="text-xs text-gray-800">
-              Please use an active email ! We will send order detail to this
-              email
+              {localize(locale, "activeEmail")}
             </span>
           </div>
           <div className="md:px-4 mb-10 w-full md:w-1/2">
             <FormInput
               id="phone"
               type="text"
-              label="Phone Number"
+              label={localize(locale, "phone")}
               register={register}
               errors={errors}
             />
@@ -139,7 +144,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
             <FormInput
               id="address"
               type="text"
-              label="Detail Address (District, Street Name, etc)"
+              label={localize(locale, "detailAddress")}
               register={register}
               errors={errors}
             />
@@ -148,7 +153,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
             <FormInput
               id="shipping_price"
               type="text"
-              label="Shipping Price"
+              label={localize(locale, "shippingPrice")}
               register={register}
               errors={errors}
             />
@@ -157,7 +162,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
           <div className="md:px-4 mb-10 w-full md:w-1/2">
             <FormSelect
               id="province"
-              label="Province"
+              label={localize(locale, "province")}
               list={provinceList}
               idField="province_id"
               labelField="province"
@@ -169,7 +174,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
           <div className="md:px-4 mb-10 w-full md:w-1/2">
             <FormSelect
               id="city"
-              label="City"
+              label={localize(locale, "city")}
               list={cityList}
               idField="city_id"
               labelField="label"
@@ -187,10 +192,10 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
               <div className="md:px-4 mb-10 w-full md:w-1/2">
                 <FormSelect
                   id="service"
-                  label="Shipping Option (JNE)"
+                  label={localize(locale, "shippingOptions")}
                   list={shippingOptionList}
                   idField="service"
-                  labelField="service"
+                  labelField="label"
                   register={register}
                   errors={errors}
                 />
@@ -199,16 +204,21 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
               <div className="md:px-4 mb-10 w-full md:w-1/2">
                 <div className="w-full">
                   <div className="flex w-full justify-between mb-4">
-                    <p className="text-gray-600 text-sm">Shipping Price</p>
+                    <p className="text-gray-600 text-sm">
+                      {localize(locale, "shippingPrice")}
+                    </p>
                     <span className="font-medium">
                       {priceFormatter.format(shippingPrice)}
                     </span>
                   </div>
                   <div className="flex w-full justify-between">
                     <p className="text-gray-600 text-sm">
-                      Estimated Shipping Time
+                      {localize(locale, "estimatedShipping")}
                     </p>
-                    <span className="font-medium">{shippingDuration} Days</span>
+                    <span className="font-medium">{`${shippingDuration} ${localize(
+                      locale,
+                      "days"
+                    )}`}</span>
                   </div>
                 </div>
               </div>
@@ -225,10 +235,10 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
             {loadingPayment ? (
               <>
                 <span className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white mr-4"></span>
-                Processing
+                {localize(locale, "processing")}
               </>
             ) : (
-              "NEXT"
+              localize(locale, "next")
             )}
           </button>
         </div>

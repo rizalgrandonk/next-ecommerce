@@ -7,8 +7,12 @@ import { getCategories } from "@/lib/api";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import CategoriesCarousel from "@/components/Categories/CategoriesCarousel";
 import { FaAngleDoubleRight } from "react-icons/fa";
+import { localize } from "@/lib/formater";
+import { useRouter } from "next/router";
 
 const Categories = (props) => {
+  const { locale } = useRouter();
+
   const { data: categories } = useSWR("categories", () => getCategories(), {
     initialData: props.categories,
   });
@@ -17,7 +21,7 @@ const Categories = (props) => {
     return <LoadingSpinner />;
   }
   const seo = {
-    title: "Categories | Grandonk Merch",
+    title: `${localize(locale, "categories")} | Grandonk Merch`,
     keywords: "merch, clothing, brand, categories",
   };
 
@@ -35,8 +39,13 @@ const Categories = (props) => {
         />
         <span className="absolute top-0 left-0  block w-full h-full bg-black/50" />
         <div className="text-white z-10 p-6 md:p-0 md:pl-20 w-full md:w-7/12">
-          <h3 className="text-5xl uppercase font-bold">Find Your Style</h3>
-          <p className="text-2xl my-6">Get the most stylist products</p>
+          <h1 className="text-6xl uppercase font-bold mb-6">
+            {localize(locale, "categories")}
+          </h1>
+          <h3 className="text-4xl capitalize font-semibold">
+            {localize(locale, "bannerTitle")}
+          </h3>
+          <p className="text-2xl my-6">{localize(locale, "bannerSubTitle")}</p>
         </div>
       </div>
       <div className="container mx-auto px-6 lg:px-16 pt-8 pb-10">

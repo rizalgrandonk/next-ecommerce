@@ -3,9 +3,11 @@ import Image from "next/image";
 import { FaMinusSquare, FaPlusSquare, FaTrash } from "react-icons/fa";
 import { useCart } from "@/contexts/CartContext";
 import { getMediaURL } from "@/lib/api";
-import { priceFormatter } from "@/lib/formater";
+import { localize, priceFormatter } from "@/lib/formater";
+import { useRouter } from "next/router";
 
 const CartItem = ({ product }) => {
+  const { locale } = useRouter();
   const { updateItemQuantity, updateItem, removeItem } = useCart();
 
   return (
@@ -37,7 +39,7 @@ const CartItem = ({ product }) => {
           <div>
             <div className="flex items-center">
               <label htmlFor="size" className="md:text-lg mr-2">
-                Size :
+                {localize(locale, "size")} :
               </label>
               <select
                 id="size"
@@ -48,7 +50,7 @@ const CartItem = ({ product }) => {
                 }
               >
                 <option defaultValue value="">
-                  Sizes
+                  {localize(locale, "sizeOptions")}
                 </option>
                 {product.sizeOptions.map((option) => (
                   <option key={option.id} value={option.size}>
@@ -58,7 +60,9 @@ const CartItem = ({ product }) => {
               </select>
             </div>
             {!product.size || product.size == "" ? (
-              <span className="text-xs text-red-600">Choose a size</span>
+              <span className="text-xs text-red-600">
+                {localize(locale, "chooseSize")}
+              </span>
             ) : (
               ""
             )}

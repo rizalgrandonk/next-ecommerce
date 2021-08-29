@@ -1,8 +1,5 @@
 const CustomCarouselDot = ({ onClick, ...rest }) => {
-  const {
-    active,
-    carouselState: { currentSlide, deviceType },
-  } = rest;
+  const { active } = rest;
   return (
     <button
       className={`h-3 mx-1 mb-8 transition-all ${

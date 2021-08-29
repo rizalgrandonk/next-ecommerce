@@ -2,9 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
 import { getMediaURL } from "@/lib/api";
-import { priceFormatter } from "@/lib/formater";
+import { localize, priceFormatter } from "@/lib/formater";
+import { useRouter } from "next/router";
 
 const LatestProductsItem = ({ product, slide, currentSlide }) => {
+  const { locale } = useRouter();
   const { addItem, inCart } = useCart();
 
   return (
@@ -25,14 +27,18 @@ const LatestProductsItem = ({ product, slide, currentSlide }) => {
         <div className="absolute inset-0 bg-black bg-opacity-30 transition-all duration-500">
           <div className="absolute bottom-0 left-0 w-full">
             <div className="w-full lg:w-3/4 p-4 lg:p-6 text-white">
-              <h2 className="text-4xl mb-2 uppercase font-semibold">
+              <h2 className="text-4xl mb-3 uppercase font-semibold">
                 {product.name}
               </h2>
-              <span className="px-3 font-medium text-xl rounded-full border-2 border-primary">
-                Price | {priceFormatter.format(product.price)}
+              <span className="px-3 py-1 font-medium text-xl rounded-full border-2 border-primary">
+                {`${localize(locale, "price")} | ${priceFormatter.format(
+                  product.price
+                )}`}
               </span>
               <Link href={`/products/${product.slug}`}>
-                <a className="block mt-5">{"Click for more detail >"}</a>
+                <a className="block mt-6">
+                  {`${localize(locale, "clickForDetail")} >`}
+                </a>
               </Link>
             </div>
             <div
@@ -41,11 +47,11 @@ const LatestProductsItem = ({ product, slide, currentSlide }) => {
               }`}
             >
               <button
-                className="inline-block w-full h-full bg-secondary hover:bg-opacity-90 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none"
+                className="inline-block w-full h-full bg-secondary hover:bg-opacity-90 font-semibold tracking-wider disabled:bg-gray-400 disabled:pointer-events-none uppercase"
                 onClick={() => addItem(product)}
                 disabled={inCart(product.id)}
               >
-                ADD TO CART
+                {localize(locale, "addToCart")}
               </button>
             </div>
           </div>

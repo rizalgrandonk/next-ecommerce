@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/FormInput";
 import { getOrder } from "@/lib/api";
-import { priceFormatter } from "@/lib/formater";
+import { localize, priceFormatter } from "@/lib/formater";
 import Meta from "@/components/Meta";
+import { useRouter } from "next/router";
 
 const Orders = () => {
+  const { locale } = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -47,17 +50,17 @@ const Orders = () => {
   const statusMessage = (status) => {
     switch (status) {
       case "pending":
-        return "Your order is waiting to be paid, please pay immediately using the payment method you choose";
+        return localize(locale, "pendingMessage");
       case "success":
-        return "Your order has been paid for and will be processed soon. We have sent the detail to your email, please check your email";
+        return localize(locale, "successMessage");
       case "cancel":
-        return "Your order has been cancelled";
+        return localize(locale, "cancelMessage");
       case "deny":
-        return "Your order has been denied, please try to reorder";
+        return localize(locale, "denyMessage");
       case "expire":
-        return "Your order has expired because it has passed the payment deadline";
+        return localize(locale, "expireMessage");
       case "challenge":
-        return "Your order has challenge by FDS, please try to reorder";
+        return localize(locale, "challengeMessage");
 
       default:
         return "";
@@ -65,7 +68,7 @@ const Orders = () => {
   };
 
   const seo = {
-    title: "Orders | Grandonk Merch",
+    title: `${localize(locale, "orders")} | Grandonk Merch`,
     keywords: "merch, clothing, brand, orders",
   };
 
@@ -75,7 +78,7 @@ const Orders = () => {
       <div className="w-full h-44 bg-secondary flex items-end">
         <div className="container mx-auto px-6 lg:px-16">
           <h1 className="text-3xl md:text-5xl text-white font-semibold uppercase pl-6 py-1 border-l-4 border-primary">
-            Check Order Transaction
+            {localize(locale, "checkOrder")}
           </h1>
         </div>
       </div>
@@ -83,7 +86,9 @@ const Orders = () => {
       <div className="container mx-auto px-4 lg:px-16 pt-4 pb-10 flex flex-col lg:flex-row justify-between gap-4">
         <div className="w-full lg:w-5/12">
           <div className="w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
-            <h2 className="text-3xl font-semibold mb-3">Input Your Order ID</h2>
+            <h2 className="text-3xl font-semibold mb-3">
+              {localize(locale, "inputOrderId")}
+            </h2>
             <span className="block h-1 w-20 bg-primary mb-12"></span>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-8 w-full md:w-5/6">
@@ -99,7 +104,7 @@ const Orders = () => {
                 <FormInput
                   id="email"
                   type="email"
-                  label="Email Address"
+                  label={localize(locale, "emailAddress")}
                   register={register}
                   errors={errors}
                 />
@@ -113,10 +118,10 @@ const Orders = () => {
                   {isLoading ? (
                     <>
                       <span className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-t-2 border-white mr-4"></span>
-                      Processing
+                      {localize(locale, "processing")}
                     </>
                   ) : (
-                    "NEXT"
+                    localize(locale, "next")
                   )}
                 </button>
               </div>
@@ -128,7 +133,7 @@ const Orders = () => {
           <div className="w-full lg:w-1/2">
             <div className="flex flex-col w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
               <h2 className="text-3xl font-semibold mb-2">
-                Error checking order
+                {localize(locale, "errorCheck")}
               </h2>
               <span className="block h-1 w-20 bg-primary mb-12"></span>
               <p className="text-xl">{errorMessage}</p>
@@ -138,7 +143,9 @@ const Orders = () => {
         {order && (
           <div className="w-full lg:w-1/2">
             <div className="w-full bg-white rounded-md overflow-hidden p-4 mb-4 shadow-lg">
-              <h2 className="text-3xl font-semibold mb-3">Order Status</h2>
+              <h2 className="text-3xl font-semibold mb-3">
+                {localize(locale, "orderStatus")}
+              </h2>
               <span className="block h-1 w-20 bg-primary mb-10"></span>
               <span
                 className={`text-xl text-white font-medium uppercase px-6 py-2 rounded-sm ${statusBg(
@@ -152,7 +159,7 @@ const Orders = () => {
               </p>
 
               <h2 className="text-3xl font-semibold mb-3 mt-12">
-                Order Details
+                {localize(locale, "orderDetail")}
               </h2>
               <span className="block h-1 w-20 bg-primary mb-8"></span>
               <div className="w-full text-sm">
@@ -161,20 +168,24 @@ const Orders = () => {
                   <span>{order.order_id}</span>
                 </div>
                 <div className="flex justify-between items-center w-full mb-2">
-                  <span className="font-semibold">Payment Type</span>
+                  <span className="font-semibold">
+                    {localize(locale, "paymentType")}
+                  </span>
                   <span className="uppercase">
                     {order.payment_type.replace(/_/g, " ")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center w-full mb-2">
                   <span className="font-semibold">
-                    Payment Code / VA Number
+                    {localize(locale, "paymentCode")}
                   </span>
                   <span>{order.payment_code}</span>
                 </div>
 
                 <div className="w-full mb-2">
-                  <span className="font-semibold">Items</span>
+                  <span className="font-semibold">
+                    {localize(locale, "items")}
+                  </span>
                   <ul className="px-2">
                     {order.orderedProducts.map((item) => (
                       <li key={item.id}>
@@ -187,30 +198,40 @@ const Orders = () => {
                   </ul>
                 </div>
                 <div className="flex justify-between items-center w-full mb-2">
-                  <span className="font-semibold">Total Amount</span>
+                  <span className="font-semibold">
+                    {localize(locale, "totalAmount")}
+                  </span>
                   <span>{priceFormatter.format(order.total_amount)}</span>
                 </div>
               </div>
 
               <h2 className="text-3xl font-semibold mb-3 mt-12">
-                Customer Details
+                {localize(locale, "customerDetail")}
               </h2>
               <span className="block h-1 w-20 bg-primary mb-8"></span>
               <div className="w-full text-sm">
                 <div className="flex justify-between items-center w-full mb-2">
-                  <span className="font-semibold">Name</span>
+                  <span className="font-semibold">
+                    {localize(locale, "name")}
+                  </span>
                   <span>{`${order.customer.first_name} ${order.customer.last_name}`}</span>
                 </div>
                 <div className="flex justify-between items-center w-full mb-2">
-                  <span className="font-semibold">Email</span>
+                  <span className="font-semibold">
+                    {localize(locale, "emailAddress")}
+                  </span>
                   <span>{order.customer.email}</span>
                 </div>
                 <div className="flex justify-between items-center w-full mb-2">
-                  <span className="font-semibold">Phone Number</span>
+                  <span className="font-semibold">
+                    {localize(locale, "phone")}
+                  </span>
                   <span>{order.customer.phone}</span>
                 </div>
                 <div className="w-full mb-2">
-                  <span className="font-semibold">Address</span>
+                  <span className="font-semibold">
+                    {localize(locale, "address")}
+                  </span>
                   <div className="w-full px-2">
                     <p>{order.customer.address}</p>
                     <p>{order.customer.city}</p>

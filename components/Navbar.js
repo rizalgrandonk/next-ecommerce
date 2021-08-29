@@ -15,13 +15,13 @@ import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import Logo from "../public/logo.png";
 import { useRouter } from "next/router";
+import { localize } from "@/lib/formater";
 
 const Navbar = () => {
   const [activeNavbar, setActiveNavbar] = useState(false);
   const { totalItems } = useCart();
 
-  const router = useRouter();
-  const { asPath } = router;
+  const { asPath, locale } = useRouter();
 
   const changeColor = () => {
     if (window.scrollY >= 30) {
@@ -59,34 +59,62 @@ const Navbar = () => {
           </div>
           <div className="hidden h-full w-1/2 lg:w-2/5 md:flex items-center justify-between">
             <Link href="/">
-              <a className="hover:text-primary font-medium uppercase">Home</a>
+              <a className="hover:text-primary font-medium uppercase">
+                {localize(locale, "home")}
+              </a>
             </Link>
             <Link href="/products">
               <a className="hover:text-primary font-medium uppercase">
-                Products
+                {localize(locale, "products")}
               </a>
             </Link>
             <Link href="/categories">
               <a className="hover:text-primary font-medium uppercase">
-                Categories
+                {localize(locale, "categories")}
               </a>
             </Link>
             <Link href="/orders">
-              <a className="hover:text-primary font-medium uppercase">Orders</a>
+              <a className="hover:text-primary font-medium uppercase">
+                {localize(locale, "orders")}
+              </a>
             </Link>
           </div>
-          <Link href="/cart">
-            <a className="relative p-2 rounded-full hover:bg-white/10">
-              <span className="text-4xl">
-                <RiShoppingCartLine />
-              </span>
-              {totalItems > 0 && (
-                <span className="absolute right-0 top-1 block h-5 w-5 text-sm text-center bg-red-600 rounded-full">
-                  {totalItems}
+
+          <div className="flex justify-between items-center gap-6">
+            <Link href="/cart">
+              <a className="relative p-2 rounded-full hover:bg-white/10">
+                <span className="text-4xl">
+                  <RiShoppingCartLine />
                 </span>
-              )}
-            </a>
-          </Link>
+                {totalItems > 0 && (
+                  <span className="absolute right-0 top-1 block h-5 w-5 text-sm text-center bg-red-600 rounded-full">
+                    {totalItems}
+                  </span>
+                )}
+              </a>
+            </Link>
+
+            <div className="flex justify-between items-center">
+              <Link href="/" locale="en">
+                <a
+                  className={`w-12 h-8 flex justify-center items-center uppercase border border-white text-xl font-medium ${
+                    locale == "en" ? "text-secondary bg-white" : ""
+                  }`}
+                >
+                  en
+                </a>
+              </Link>
+              <Link href="/" locale="id">
+                <a
+                  className={`w-12 h-8 flex justify-center items-center uppercase border border-white text-xl font-medium ${
+                    locale == "id" ? "text-secondary bg-white" : ""
+                  }`}
+                >
+                  id
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
 

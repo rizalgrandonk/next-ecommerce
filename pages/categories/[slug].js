@@ -7,9 +7,11 @@ import { getCategories, getMediaURL } from "@/lib/api";
 import ProductList from "@/components/Products/ProductList";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Meta from "@/components/Meta";
+import { localize } from "@/lib/formater";
 
 const CategoryProducts = (props) => {
   const router = useRouter();
+  const { locale } = router;
   const slug = router.query.slug;
 
   const { data: category } = useSWR(
@@ -49,14 +51,18 @@ const CategoryProducts = (props) => {
         />
         <span className="absolute top-0 left-0  block w-full h-full bg-black/50" />
         <div className="text-white text-center z-10 p-16 w-full md:w-1/2 bg-black/70">
-          <h3 className="text-6xl uppercase font-bold">{category.name}</h3>
-          <p className="text-3xl text-primary mt-6">Find Your Style</p>
+          <h1 className="text-6xl uppercase font-bold">{category.name}</h1>
+          <p className="text-3xl text-primary mt-6">
+            {localize(locale, "bannerTitle")}
+          </p>
         </div>
       </div>
       <div className="container mx-auto pt-8 px-6 lg:px-16">
         <Link href="/products">
           <a className="flex items-center justify-end text-2xl space-x-2 text-primary hover:text-dark">
-            <span className="text-lg hover:text-dark">All Products</span>
+            <span className="text-lg hover:text-dark">
+              {localize(locale, "allProducts")}
+            </span>
             <FaAngleDoubleRight />
           </a>
         </Link>
@@ -66,7 +72,7 @@ const CategoryProducts = (props) => {
       ) : (
         <div className="min-h-[60vh] p-12">
           <h3 className="text-4xl text-center font-semibold">
-            There is no products for this category
+            {localize(locale, "emptyCategory")}
           </h3>
         </div>
       )}
@@ -74,12 +80,19 @@ const CategoryProducts = (props) => {
   );
 };
 
-export async function getStaticPaths() {
+export async function getStaticPaths({ locales }) {
   const categories = await getCategories();
 
-  const paths = categories.map((category) => ({
-    params: { slug: category.slug },
-  }));
+  let paths = [];
+  locales.forEach((locale) => {
+    paths = [
+      ...paths,
+      ...categories.map((category) => ({
+        params: { slug: category.slug },
+        locale,
+      })),
+    ];
+  });
 
   return { paths, fallback: false };
 }
