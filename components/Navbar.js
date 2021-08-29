@@ -57,7 +57,7 @@ const Navbar = () => {
               </a>
             </Link>
           </div>
-          <div className="hidden h-full w-1/2 lg:w-2/5 md:flex items-center justify-between">
+          <div className="hidden h-full w-1/2 lg:w-2/5 lg:flex items-center justify-between">
             <Link href="/">
               <a className="hover:text-primary font-medium uppercase">
                 {localize(locale, "home")}
@@ -82,7 +82,7 @@ const Navbar = () => {
 
           <div className="flex justify-between items-center gap-6">
             <Link href="/cart">
-              <a className="relative p-2 rounded-full hover:bg-white/10">
+              <a className="hidden lg:inline relative p-2 rounded-full hover:bg-white/10">
                 <span className="text-4xl">
                   <RiShoppingCartLine />
                 </span>
@@ -97,7 +97,7 @@ const Navbar = () => {
             <div className="flex justify-between items-center">
               <Link href="/" locale="en">
                 <a
-                  className={`w-12 h-8 flex justify-center items-center uppercase border border-white text-xl font-medium ${
+                  className={`px-3 py-1 uppercase border border-white md:text-xl font-medium ${
                     locale == "en" ? "text-secondary bg-white" : ""
                   }`}
                 >
@@ -106,7 +106,7 @@ const Navbar = () => {
               </Link>
               <Link href="/" locale="id">
                 <a
-                  className={`w-12 h-8 flex justify-center items-center uppercase border border-white text-xl font-medium ${
+                  className={`px-3 py-1 uppercase border border-white md:text-xl font-medium ${
                     locale == "id" ? "text-secondary bg-white" : ""
                   }`}
                 >
@@ -119,48 +119,70 @@ const Navbar = () => {
       </nav>
 
       <nav
-        className="md:hidden block fixed inset-x-0 -bottom-0.5 z-10 bg-white text-secondary"
+        className="lg:hidden block fixed inset-x-0 -bottom-0.5 z-10 bg-white text-secondary"
         style={{ boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.1)" }}
       >
         <div className="flex justify-between">
           <Link href="/">
-            <a className="w-full  focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
-              <span className="text-3xl">
+            <a className="w-full focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
+              <span className="text-2xl">
                 {asPath == "/" ? <RiHome3Fill /> : <RiHome3Line />}
               </span>
-              <span className="block text-xs">Home</span>
+              <span className="block text-xs">{localize(locale, "home")}</span>
             </a>
           </Link>
           <Link href="/products">
-            <a className="w-full  focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
-              <span className="text-3xl">
+            <a className="w-full focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
+              <span className="text-2xl">
                 {asPath.startsWith("/products") ? (
                   <RiTShirt2Fill />
                 ) : (
                   <RiTShirt2Line />
                 )}
               </span>
-              <span className="block text-xs">Products</span>
+              <span className="block text-xs">
+                {localize(locale, "products")}
+              </span>
             </a>
           </Link>
+
+          <div className="w-full flex flex-col justify-center items-center">
+            <Link href="/cart">
+              <a className="w-16 h-16 bg-secondary rounded-full flex justify-center items-center absolute bottom-2 left-1/2 -translate-x-1/2 hover:bg-opacity-95 focus:bg-opacity-95">
+                <span className="text-4xl text-white relative focus:text-primary hover:text-primary">
+                  <RiShoppingCartLine />
+                  {totalItems > 0 && (
+                    <span className="absolute -right-1 -top-1 px-1.5 py-0.5 text-xs text-center bg-red-600 rounded-full text-white">
+                      {totalItems}
+                    </span>
+                  )}
+                </span>
+              </a>
+            </Link>
+          </div>
+
           <Link href="/categories">
-            <a className="w-full  focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
-              <span className="text-3xl">
+            <a className="w-full focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
+              <span className="text-2xl">
                 {asPath.startsWith("/categories") ? (
                   <RiLayoutMasonryFill />
                 ) : (
                   <RiLayoutMasonryLine />
                 )}
               </span>
-              <span className="block text-xs">Categories</span>
+              <span className="block text-xs">
+                {localize(locale, "categories")}
+              </span>
             </a>
           </Link>
           <Link href="/orders">
-            <a className="w-full  focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
-              <span className="text-3xl">
+            <a className="w-full focus:text-primary hover:text-primary flex flex-col justify-between items-center py-2">
+              <span className="text-2xl">
                 {asPath.startsWith("/orders") ? <RiBillFill /> : <RiBillLine />}
               </span>
-              <span className="block text-xs">Orders</span>
+              <span className="block text-xs">
+                {localize(locale, "orders")}
+              </span>
             </a>
           </Link>
         </div>
