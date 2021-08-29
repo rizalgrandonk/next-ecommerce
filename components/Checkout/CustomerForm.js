@@ -121,7 +121,10 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
               register={register}
               errors={errors}
             />
-            <span className="text-xs text-gray-500">Use an active email</span>
+            <span className="text-xs text-gray-800">
+              Please use an active email ! We will send order detail to this
+              email
+            </span>
           </div>
           <div className="md:px-4 mb-10 w-full md:w-1/2">
             <FormInput
