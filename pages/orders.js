@@ -39,7 +39,13 @@ const Orders = () => {
         return "bg-yellow-500";
       case "success":
         return "bg-green-500";
-      case "cancel" || "expire" || "deny" || "challenge":
+      case "cancel":
+        return "bg-red-600";
+      case "expire":
+        return "bg-red-600";
+      case "deny":
+        return "bg-red-600";
+      case "challenge":
         return "bg-red-600";
 
       default:
