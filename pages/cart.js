@@ -97,4 +97,10 @@ const Cart = () => {
   );
 };
 
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
+
 export default Cart;
