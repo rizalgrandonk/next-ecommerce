@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap --config sitemap-config.js"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.4.1",
     "marked": "^3.0.0",
     "next": "11.0.1",
+    "next-sitemap": "^1.6.164",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.13.0",
