@@ -46,7 +46,7 @@ const Meta = ({ seo }) => {
       <meta name="theme-color" content="#ffffff" />
 
       <meta name="keywords" content={fullSeo.keywords} />
-      <link rel="canonical" href="https://grandonkmerch.vercel.app/products" />
+      <link rel="canonical" href={fullSeo.url} />
 
       <title>{fullSeo.title}</title>
       <meta property="og:title" content={fullSeo.title} />
