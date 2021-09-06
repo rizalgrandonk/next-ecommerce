@@ -1,10 +1,14 @@
 import { useCart } from "@/contexts/CartContext";
 import { getProducts } from "@/lib/api";
+import { localize } from "@/lib/formater";
+import { useRouter } from "next/router";
 import useSWR from "swr";
 import LoadingSpinner from "../LoadingSpinner";
 import ProductList from "../Products/ProductList";
 
 const CartRecomen = () => {
+  const { locale } = useRouter();
+
   const { items, isEmpty } = useCart();
 
   const getCategorySlugs = (items) => {
@@ -40,6 +44,11 @@ const CartRecomen = () => {
     const param = getParameter(items);
     const products = await getProducts(param);
     const filtered = filterByCartItems(items, products);
+    if (filtered < 1) {
+      const products = await getProducts("?featured=true");
+      const filtered = filterByCartItems(items, products);
+      return filtered;
+    }
     return filtered;
   };
 
@@ -58,7 +67,7 @@ const CartRecomen = () => {
   return (
     <>
       <h2 className="text-4xl font-semibold text-gray-900 text-center mt-10">
-        You May Like
+        {localize(locale, "mayLike")}
       </h2>
       <ProductList products={products} />
     </>

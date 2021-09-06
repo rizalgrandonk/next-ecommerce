@@ -90,7 +90,6 @@ const Checkout = (props) => {
 
     emptyCart();
     router.push("/orders");
-    // setIsLoading(false);
   }
 
   const onSubmit = async (data) => {

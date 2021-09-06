@@ -55,6 +55,7 @@ const id = {
   size: "Ukuran",
   sizeOptions: "Pilihan",
   chooseSize: "Pilih ukuran yang tersedia",
+  mayLike: "Anda Mungkin Tertarik",
 
   // CHECKOUT
   customerData: "Data Pengiriman Pelanggan",

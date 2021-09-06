@@ -55,6 +55,7 @@ const en = {
   size: "Size",
   sizeOptions: "Options",
   chooseSize: "Choose a size option",
+  mayLike: "You May Like",
 
   // CHECKOUT
   customerData: "Customer Shipping Data",
