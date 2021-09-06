@@ -4,6 +4,7 @@ import { useCart } from "@/contexts/CartContext";
 import CartItem from "@/components/Cart/CartItem";
 import { localize, priceFormatter } from "@/lib/formater";
 import Meta from "@/components/Meta";
+import CartRecomen from "@/components/Cart/CartRecomen";
 
 const Cart = () => {
   const [error, setError] = useState(true);
@@ -93,6 +94,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <CartRecomen />
     </>
   );
 };

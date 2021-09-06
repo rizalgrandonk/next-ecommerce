@@ -8,23 +8,27 @@ export function useCart() {
 
 export const CartProvider = ({ children }) => {
   const [items, setItems] = useState([]);
-  const [isEmpty, setIsEmpty] = useState(true);
+  const [isEmpty, setIsEmpty] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let localCart = localStorage.getItem("cart");
     localCart = JSON.parse(localCart);
     if (localCart) setItems(localCart);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    setIsEmpty(items.length < 1);
-    setTotalItems(items.reduce((prev, curr) => curr.quantity + prev, 0));
-    setCartTotal(
-      items.reduce((prev, curr) => curr.quantity * curr.price + prev, 0)
-    );
-  }, [items]);
+    if (!loading) {
+      setIsEmpty(items.length < 1);
+      setTotalItems(items.reduce((prev, curr) => curr.quantity + prev, 0));
+      setCartTotal(
+        items.reduce((prev, curr) => curr.quantity * curr.price + prev, 0)
+      );
+    }
+  }, [items, loading]);
 
   const addItem = (item, quantity = 1) => {
     const updated = [...items, { ...item, quantity: quantity }];
@@ -97,5 +101,9 @@ export const CartProvider = ({ children }) => {
     isEmpty,
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={value}>
+      {!loading && children}
+    </CartContext.Provider>
+  );
 };

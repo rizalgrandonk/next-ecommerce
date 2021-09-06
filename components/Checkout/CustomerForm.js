@@ -7,7 +7,7 @@ import { localize, priceFormatter } from "@/lib/formater";
 import LoadingSpinner from "../LoadingSpinner";
 import { useRouter } from "next/router";
 
-const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
+const CustomerForm = ({ allCities, allProvince, loadingPayment, onSubmit }) => {
   const { locale } = useRouter();
 
   const {
@@ -149,15 +149,6 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
               errors={errors}
             />
           </div>
-          <div className="hidden md:px-4 mb-10 w-full md:w-full">
-            <FormInput
-              id="shipping_price"
-              type="text"
-              label={localize(locale, "shippingPrice")}
-              register={register}
-              errors={errors}
-            />
-          </div>
 
           <div className="md:px-4 mb-10 w-full md:w-1/2">
             <FormSelect
@@ -228,7 +219,7 @@ const CustomerForm = ({ onSubmit, allCities, allProvince, loadingPayment }) => {
 
         <div className="flex justify-center">
           <button
-            type="sumbit"
+            type="submit"
             className="flex justify-center items-center px-4 py-2 rounded-sm bg-primary hover:bg-opacity-90 text-white font-semibold text-center w-full md:w-1/2  cursor-pointer disabled:bg-gray-400 disabled:pointer-events-none"
             disabled={isLoading || loadingPayment}
           >
