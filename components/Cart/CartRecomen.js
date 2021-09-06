@@ -52,7 +52,7 @@ const CartRecomen = () => {
     return filtered;
   };
 
-  const { data: products } = useSWR("products", () =>
+  const { data: products } = useSWR("recomen products", () =>
     getRecomen(items, isEmpty)
   );
 
