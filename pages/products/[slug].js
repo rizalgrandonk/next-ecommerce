@@ -56,7 +56,13 @@ const Product = (props) => {
         </div>
       </div>
       <span className="block w-full h-8 rounded-b-lg bg-secondary" />
-      <ImageCarousel images={product.image} />
+      <ImageCarousel
+        images={
+          product.banner_image
+            ? [product.banner_image, ...product.image]
+            : product.image
+        }
+      />
       <div className="container mx-auto px-6 lg:px-16 pt-4 pb-10 flex justify-between flex-col md:flex-row-reverse space-y-10 md:space-y-0">
         <div className="w-full md:w-2/6">
           <p className="text-4xl text-right mb-8 font-semibold">

@@ -22,27 +22,38 @@ const Meta = ({ seo }) => {
       <meta charSet="UTF-8" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="/apple-touch-icon.png?v=2"
+        href="/icons/apple-touch-icon.png?v=3"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="32x32"
-        href="/favicon-32x32.png?v=2"
+        href="/icons/favicon-32x32.png?v=3"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="16x16"
-        href="/favicon-16x16.png?v=2"
+        href="/icons/favicon-16x16.png?v=3"
       />
-      <link rel="manifest" href="/site.webmanifest?v=2" />
-      <link rel="mask-icon" href="/safari-pinned-tab.svg?v=2" color="#353535" />
-      <link rel="shortcut icon" href="/favicon.ico?v=2" />
-      <meta name="msapplication-TileColor" content="#203e6a" />
+      <link rel="manifest" href="/icons/site.webmanifest?v=3" />
+      <link
+        rel="mask-icon"
+        href="/icons/safari-pinned-tab.svg?v=3"
+        color="#515151"
+      />
+      <link rel="shortcut icon" href="/icons/favicon.ico?v=3" />
+      <meta name="apple-mobile-web-app-title" content="Grandonk Merch" />
+      <meta name="application-name" content="Grandonk Merch" />
+      <meta name="msapplication-TileColor" content="#2b5797" />
+      <meta
+        name="msapplication-config"
+        content="/icons/browserconfig.xml?v=3"
+      />
       <meta name="theme-color" content="#ffffff" />
 
       <meta name="keywords" content={fullSeo.keywords} />
