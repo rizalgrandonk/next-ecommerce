@@ -10,16 +10,20 @@ import { useCart } from "@/contexts/CartContext";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Meta from "@/components/Meta";
 
-const Product = ({ product }) => {
+const Product = (props) => {
   const router = useRouter();
   const { locale } = router;
   const slug = router.query.slug;
 
   const { addItem, inCart } = useCart();
 
-  // const { data: product } = useSWR("product", () => getProducts(`/${slug}`), {
-  //   initialData: props.product,
-  // });
+  const { data: product } = useSWR(
+    `categories/${slug}`,
+    () => getProducts(`/${slug}`),
+    {
+      initialData: props.product,
+    }
+  );
 
   const keywords = product.categories.reduce((acc, prev) => {
     return `${acc}, ${prev.name.toLowerCase()}`;
