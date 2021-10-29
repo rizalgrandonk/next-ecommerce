@@ -13,6 +13,7 @@
     "@tailwindcss/typography": "^0.4.1",
     "marked": "^3.0.8",
     "next": "11.0.1",
+    "next-pwa": "^5.4.0",
     "next-sitemap": "^1.6.192",
     "react": "17.0.2",
     "react-dom": "17.0.2",

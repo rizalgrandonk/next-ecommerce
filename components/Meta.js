@@ -40,7 +40,7 @@ const Meta = ({ seo }) => {
         sizes="16x16"
         href="/icons/favicon-16x16.png?v=3"
       />
-      <link rel="manifest" href="/icons/site.webmanifest?v=3" />
+      <link rel="manifest" href="/manifest.json" />
       <link
         rel="mask-icon"
         href="/icons/safari-pinned-tab.svg?v=3"
