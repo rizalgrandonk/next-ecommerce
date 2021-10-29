@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import Image from "next/image";
 import { getProducts } from "@/lib/api";
 import ProductList from "@/components/Products/ProductList";
@@ -10,12 +9,6 @@ import { useRouter } from "next/router";
 
 const Products = ({ products }) => {
   const { locale } = useRouter();
-
-  // const { data: products } = useSWR(
-  //   "products",
-  //   () => getProducts("?_sort=created_at:desc"),
-  //   { initialData: props.products }
-  // );
 
   if (!products) {
     return <LoadingSpinner />;

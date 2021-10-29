@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaAngleDoubleRight } from "react-icons/fa";
-import useSWR from "swr";
 
 import { getProducts, getCategories } from "@/lib/api";
 import FeaturedProductsCarousel from "@/components/Home/FeaturedProductsCarousel";
@@ -15,15 +14,6 @@ import { localize } from "@/lib/formater";
 
 export default function Home({ products, categories }) {
   const { locale } = useRouter();
-
-  // const { data: products } = useSWR(
-  //   "products",
-  //   () => getProducts("?_sort=created_at:desc"),
-  //   { initialData: props.products }
-  // );
-  // const { data: categories } = useSWR("categories", () => getCategories(), {
-  //   initialData: props.categories,
-  // });
 
   const featuredProducts = products.filter(
     (product) => product.featured === true

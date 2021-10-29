@@ -1,7 +1,6 @@
 import Link from "next/link";
 import marked from "marked";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 
 import { getProducts, getMediaURL } from "@/lib/api";
 import { localize, priceFormatter } from "@/lib/formater";
@@ -16,14 +15,6 @@ const Product = ({ product }) => {
   const slug = router.query.slug;
 
   const { addItem, inCart } = useCart();
-
-  // const { data: product } = useSWR(
-  //   `categories/${slug}`,
-  //   () => getProducts(`/${slug}`),
-  //   {
-  //     initialData: props.product,
-  //   }
-  // );
 
   const keywords = product.categories.reduce((acc, prev) => {
     return `${acc}, ${prev.name.toLowerCase()}`;

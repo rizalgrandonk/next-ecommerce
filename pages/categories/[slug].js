@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import { getCategories, getMediaURL } from "@/lib/api";
 import ProductList from "@/components/Products/ProductList";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -13,14 +12,6 @@ const CategoryProducts = ({ category }) => {
   const router = useRouter();
   const { locale } = router;
   const slug = router.query.slug;
-
-  // const { data: category } = useSWR(
-  //   `products/${slug}`,
-  //   () => getCategories(`/${slug}`),
-  //   {
-  //     initialData: props.category,
-  //   }
-  // );
 
   const seo = {
     title: `${category.name} | Grandonk Merch`,

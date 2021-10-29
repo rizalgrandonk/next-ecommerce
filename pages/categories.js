@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import useSWR from "swr";
 import Meta from "@/components/Meta";
 import Banner from "../public/banner.jpg";
 import { getCategories } from "@/lib/api";
@@ -12,10 +11,6 @@ import { useRouter } from "next/router";
 
 const Categories = ({ categories }) => {
   const { locale } = useRouter();
-
-  // const { data: categories } = useSWR("categories", () => getCategories(), {
-  //   initialData: props.categories,
-  // });
 
   if (!categories) {
     return <LoadingSpinner />;

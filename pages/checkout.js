@@ -1,7 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
 import Script from "next/script";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import { useState } from "react";
 
 import CustomerForm from "@/components/Checkout/CustomerForm";
@@ -14,13 +13,6 @@ const Checkout = (props) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { items, emptyCart } = useCart();
-
-  // const { data: allProvince } = useSWR("province", () => getProvince(), {
-  //   initialData: props.province,
-  // });
-  // const { data: allCities } = useSWR("cities", () => getCity(), {
-  //   initialData: props.cities,
-  // });
 
   const allProvince = props.province;
   const allCities = props.cities;
