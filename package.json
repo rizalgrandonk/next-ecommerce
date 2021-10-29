@@ -11,21 +11,21 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.4.1",
-    "marked": "^3.0.0",
+    "marked": "^3.0.8",
     "next": "11.0.1",
-    "next-sitemap": "^1.6.164",
+    "next-sitemap": "^1.6.192",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-hook-form": "^7.13.0",
-    "react-icons": "^4.2.0",
-    "react-multi-carousel": "^2.6.3",
-    "swr": "^0.5.6"
+    "react-hook-form": "^7.18.0",
+    "react-icons": "^4.3.1",
+    "react-multi-carousel": "^2.6.5",
+    "swr": "^0.5.7"
   },
   "devDependencies": {
-    "autoprefixer": "^10.3.1",
+    "autoprefixer": "^10.4.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
-    "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.7"
+    "postcss": "^8.3.11",
+    "tailwindcss": "^2.2.18"
   }
 }

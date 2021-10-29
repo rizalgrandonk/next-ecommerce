@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaInstagram, FaFacebook, FaTwitter } from "react-icons/fa";
 
-const Footer = ({ categories }) => {
+const Footer = () => {
   const { locale } = useRouter();
 
   return (
@@ -44,20 +44,6 @@ const Footer = ({ categories }) => {
                     </a>
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xl font-semibold mb-6">
-                {localize(locale, "categories")}
-              </h4>
-              <ul>
-                {categories.map((category) => (
-                  <li key={category.slug} className="py-1">
-                    <Link href={`/categories/${category.slug}`}>
-                      <a className="hover:text-gray-700">{category.name}</a>
-                    </Link>
-                  </li>
-                ))}
               </ul>
             </div>
           </div>

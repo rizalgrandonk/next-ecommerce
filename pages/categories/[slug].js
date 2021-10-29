@@ -108,7 +108,7 @@ export async function getStaticProps(ctx) {
     props: {
       category,
     },
-    revalidate: 1,
+    revalidate: 20,
   };
 }
 

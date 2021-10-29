@@ -138,7 +138,7 @@ export async function getStaticProps(ctx) {
     props: {
       product,
     },
-    revalidate: 1,
+    revalidate: 20,
   };
 }
 

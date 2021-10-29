@@ -12,21 +12,15 @@ function MyApp({ Component, pageProps }) {
   //   initialData: pageProps.categories,
   // });
 
-  const { categories } = pageProps;
+  // const { categories } = pageProps;
 
   return (
     <CartProvider>
-      <Layout categories={categories}>
+      <Layout>
         <Component {...pageProps} />
       </Layout>
     </CartProvider>
   );
 }
-
-MyApp.getInitialProps = async (ctx) => {
-  const appProps = await App.getInitialProps(ctx);
-  const categories = await getCategories();
-  return { ...appProps, pageProps: { categories } };
-};
 
 export default MyApp;
