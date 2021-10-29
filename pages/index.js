@@ -13,17 +13,17 @@ import Meta from "@/components/Meta";
 import { useRouter } from "next/router";
 import { localize } from "@/lib/formater";
 
-export default function Home(props) {
+export default function Home({ products, categories }) {
   const { locale } = useRouter();
 
-  const { data: products } = useSWR(
-    "products",
-    () => getProducts("?_sort=created_at:desc"),
-    { initialData: props.products }
-  );
-  const { data: categories } = useSWR("categories", () => getCategories(), {
-    initialData: props.categories,
-  });
+  // const { data: products } = useSWR(
+  //   "products",
+  //   () => getProducts("?_sort=created_at:desc"),
+  //   { initialData: props.products }
+  // );
+  // const { data: categories } = useSWR("categories", () => getCategories(), {
+  //   initialData: props.categories,
+  // });
 
   const featuredProducts = products.filter(
     (product) => product.featured === true

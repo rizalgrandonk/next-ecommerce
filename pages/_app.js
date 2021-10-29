@@ -8,9 +8,11 @@ import { getCategories } from "@/lib/api";
 import Layout from "@/components/Layout";
 
 function MyApp({ Component, pageProps }) {
-  const { data: categories } = useSWR("categories", () => getCategories(), {
-    initialData: pageProps.categories,
-  });
+  // const { data: categories } = useSWR("categories", () => getCategories(), {
+  //   initialData: pageProps.categories,
+  // });
+
+  const { categories } = pageProps;
 
   return (
     <CartProvider>

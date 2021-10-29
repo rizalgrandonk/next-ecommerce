@@ -15,12 +15,15 @@ const Checkout = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { items, emptyCart } = useCart();
 
-  const { data: allProvince } = useSWR("province", () => getProvince(), {
-    initialData: props.province,
-  });
-  const { data: allCities } = useSWR("cities", () => getCity(), {
-    initialData: props.cities,
-  });
+  // const { data: allProvince } = useSWR("province", () => getProvince(), {
+  //   initialData: props.province,
+  // });
+  // const { data: allCities } = useSWR("cities", () => getCity(), {
+  //   initialData: props.cities,
+  // });
+
+  const allProvince = props.province;
+  const allCities = props.cities;
 
   const getCityName = async (cityId) => {
     const city = await getCity(`?id=${cityId}`);

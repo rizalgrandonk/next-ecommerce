@@ -8,14 +8,14 @@ import Banner from "../public/banner.jpg";
 import { localize } from "@/lib/formater";
 import { useRouter } from "next/router";
 
-const Products = (props) => {
+const Products = ({ products }) => {
   const { locale } = useRouter();
 
-  const { data: products } = useSWR(
-    "products",
-    () => getProducts("?_sort=created_at:desc"),
-    { initialData: props.products }
-  );
+  // const { data: products } = useSWR(
+  //   "products",
+  //   () => getProducts("?_sort=created_at:desc"),
+  //   { initialData: props.products }
+  // );
 
   if (!products) {
     return <LoadingSpinner />;

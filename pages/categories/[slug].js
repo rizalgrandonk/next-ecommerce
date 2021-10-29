@@ -9,18 +9,18 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import Meta from "@/components/Meta";
 import { localize } from "@/lib/formater";
 
-const CategoryProducts = (props) => {
+const CategoryProducts = ({ category }) => {
   const router = useRouter();
   const { locale } = router;
   const slug = router.query.slug;
 
-  const { data: category } = useSWR(
-    `products/${slug}`,
-    () => getCategories(`/${slug}`),
-    {
-      initialData: props.category,
-    }
-  );
+  // const { data: category } = useSWR(
+  //   `products/${slug}`,
+  //   () => getCategories(`/${slug}`),
+  //   {
+  //     initialData: props.category,
+  //   }
+  // );
 
   const seo = {
     title: `${category.name} | Grandonk Merch`,

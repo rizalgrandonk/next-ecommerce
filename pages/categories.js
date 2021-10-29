@@ -10,12 +10,12 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import { localize } from "@/lib/formater";
 import { useRouter } from "next/router";
 
-const Categories = (props) => {
+const Categories = ({ categories }) => {
   const { locale } = useRouter();
 
-  const { data: categories } = useSWR("categories", () => getCategories(), {
-    initialData: props.categories,
-  });
+  // const { data: categories } = useSWR("categories", () => getCategories(), {
+  //   initialData: props.categories,
+  // });
 
   if (!categories) {
     return <LoadingSpinner />;
