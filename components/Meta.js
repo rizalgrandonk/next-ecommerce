@@ -11,7 +11,7 @@ const Meta = ({ seo }) => {
       "Grandonk Merch is a place to get the nice looking clothes and merch",
     shareImage:
       "https://res.cloudinary.com/grandonk-merch/image/upload/v1630526973/banner_o3vmy7.jpg",
-    url: `https://grandonkmerch.vercel.app${asPath}`,
+    url: `https://grandonkmerch.netlify.app${asPath}`,
     article: false,
   };
 
