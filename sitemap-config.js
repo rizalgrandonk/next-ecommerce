@@ -1,13 +1,14 @@
-const siteUrl = "https://grandonkmerch.vercel.app";
+const siteUrl = "https://grandonkmerch.netlify.app";
 
 module.exports = {
   siteUrl,
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
-      { userAgent: "*", disallow: "/checkout" },
-      { userAgent: "*", allow: "/" },
+      {
+        userAgent: "*",
+        allow: "/",
+      },
     ],
   },
-  exclude: ["/checkout"],
 };
