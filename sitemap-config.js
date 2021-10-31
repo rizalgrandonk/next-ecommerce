@@ -1,4 +1,4 @@
-const siteUrl = "https://grandonkmerch.netlify.app";
+const siteUrl = "https://grandonkmerch.vercel.app";
 
 module.exports = {
   siteUrl,
