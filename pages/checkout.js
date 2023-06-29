@@ -1,12 +1,12 @@
-import { useForm, FormProvider } from "react-hook-form";
-import Script from "next/script";
-import { useRouter } from "next/router";
-import { useState } from "react";
-
 import CustomerForm from "@/components/Checkout/CustomerForm";
-import { useCart } from "@/contexts/CartContext";
-import { getToken, createOrder, getCity, getProvince } from "@/lib/api";
 import Meta from "@/components/Meta";
+import { useCart } from "@/contexts/CartContext";
+import { createOrder, getCity, getProvince, getToken } from "@/lib/api";
+import { useRouter } from "next/router";
+import Script from "next/script";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { mutate } from "swr";
 
 const Checkout = (props) => {
   const methods = useForm();
@@ -64,6 +64,26 @@ const Checkout = (props) => {
     };
   };
 
+  const updateOrderHistory = (order_id) => {
+    const orderData = JSON.parse(window.localStorage.getItem("order_history"));
+    if (!orderData || !orderData.order_list) {
+      window.localStorage.setItem(
+        "order_history",
+        JSON.stringify({
+          order_list: [order_id],
+        })
+      );
+      return;
+    }
+    window.localStorage.setItem(
+      "order_history",
+      JSON.stringify({
+        order_list: [...orderData.order_list, order_id],
+      })
+    );
+    return;
+  };
+
   async function handleResponse(result, data) {
     setIsLoading(true);
     const transactionDetail = getTransactionDetail(result);
@@ -83,7 +103,10 @@ const Checkout = (props) => {
       console.log(order.error);
     }
 
+    updateOrderHistory(result.order_id);
+
     emptyCart();
+    mutate("order-history");
     router.push("/orders");
   }
 

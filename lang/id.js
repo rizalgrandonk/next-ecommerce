@@ -41,11 +41,14 @@ const id = {
   errorCheck: "Pengecekan Error",
   orderStatus: "Status Pesanan",
   orderDetail: "Detail Pesanan",
+  seeOrderDetail: "Lihat Detail Pesanan",
   paymentType: "Tipe Pembayaran",
   paymentCode: "Kode Pembayaran / VA Number",
   items: "Barang",
   totalAmount: "Jumlah Total",
   customerDetail: "Detail Pelanggan",
+  yourOrderHistory: "Riwayat Pesanan Anda",
+  orderHistoryEmpty: "Riwayat Order Anda Kosong",
 
   // CART
   yourCart: "Keranjang Anda",

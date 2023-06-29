@@ -1,5 +1,9 @@
-import Link from "next/link";
+import { useCart } from "@/contexts/CartContext";
+import { localize } from "@/lib/formater";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import {
   RiBillFill,
   RiBillLine,
@@ -11,11 +15,6 @@ import {
   RiTShirt2Fill,
   RiTShirt2Line,
 } from "react-icons/ri";
-import { useEffect, useState } from "react";
-import { useCart } from "@/contexts/CartContext";
-import Logo from "../public/logo.png";
-import { useRouter } from "next/router";
-import { localize } from "@/lib/formater";
 
 const Navbar = () => {
   const [activeNavbar, setActiveNavbar] = useState(false);
@@ -47,9 +46,10 @@ const Navbar = () => {
             <Link href="/">
               <a className="block relative h-full w-24">
                 <Image
-                  src={Logo}
+                  src="/logo.png"
                   alt=""
                   placeholder="blur"
+                  blurDataURL="/logo.png"
                   layout="fill"
                   objectFit="contain"
                   quality={100}

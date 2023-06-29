@@ -1,10 +1,9 @@
-import Image from "next/image";
-import { getProducts } from "@/lib/api";
-import ProductList from "@/components/Products/ProductList";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Meta from "@/components/Meta";
-import Banner from "../public/banner.jpg";
+import ProductList from "@/components/Products/ProductList";
+import { getProducts } from "@/lib/api";
 import { localize } from "@/lib/formater";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 const Products = ({ products }) => {
@@ -23,9 +22,10 @@ const Products = ({ products }) => {
       <Meta seo={seo} />
       <div className="relative flex items-center w-full h-[80vh] bg-center bg-cover">
         <Image
-          src={Banner}
+          src="/banner.jpg"
           alt=""
           placeholder="blur"
+          blurDataURL="/banner.jpg"
           layout="fill"
           objectFit="cover"
           loading="lazy"

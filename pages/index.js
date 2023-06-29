@@ -1,16 +1,15 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { FaAngleDoubleRight } from "react-icons/fa";
 
-import { getProducts, getCategories } from "@/lib/api";
+import CategoryList from "@/components/Home/CategoryList";
 import FeaturedProductsCarousel from "@/components/Home/FeaturedProductsCarousel";
 import LatestProductsCarousel from "@/components/Home/LatestProductsCarousel";
-import CategoryList from "@/components/Home/CategoryList";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import Banner from "../public/banner.jpg";
 import Meta from "@/components/Meta";
-import { useRouter } from "next/router";
+import { getCategories, getProducts } from "@/lib/api";
 import { localize } from "@/lib/formater";
+import { useRouter } from "next/router";
 
 export default function Home({ products, categories }) {
   const { locale } = useRouter();
@@ -54,9 +53,10 @@ export default function Home({ products, categories }) {
         <div className="relative w-5/6 md:w-1/2 h-100 bg-secondary">
           <div className="absolute w-[95%] h-[95%] -right-12 -bottom-12">
             <Image
-              src={Banner}
+              src="/banner.jpg"
               alt=""
               placeholder="blur"
+              blurDataURL="/banner.jpg"
               layout="fill"
               objectFit="cover"
               loading="lazy"

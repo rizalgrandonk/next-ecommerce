@@ -15,6 +15,6 @@ This is a ecommerce website build with NextJS and Strapi (headless CMS)
 
 ## Authors
 
-- Github : [grandonk666](https://www.github.com/grandonk666)
-- Website : [RizalWaskito](https://profile.rizalwaskito.xyz)
+- Github : [rizalgrandonk](https://www.github.com/rizalgrandonk)
+- Website : [RizalWaskito](https://rizalwaskito.netlify.app)
 - Twitter : [rizal_grandonk](https://twitter.com/rizal_grandonk)

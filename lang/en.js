@@ -41,11 +41,14 @@ const en = {
   errorCheck: "Error checking order",
   orderStatus: "Order Status",
   orderDetail: "Order Detail",
+  seeOrderDetail: "See Order Detail",
   paymentType: "Payment Type",
   paymentCode: "Payment Code / VA Number",
   items: "Items",
   totalAmount: "Total Amount",
   customerDetail: "Customer Details",
+  yourOrderHistory: "Your Order History",
+  orderHistoryEmpty: "Your Order History is Empty",
 
   // CART
   yourCart: "Your Shopping Cart",

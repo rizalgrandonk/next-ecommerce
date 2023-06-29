@@ -1,13 +1,12 @@
+import CategoriesCarousel from "@/components/Categories/CategoriesCarousel";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Meta from "@/components/Meta";
+import { getCategories } from "@/lib/api";
+import { localize } from "@/lib/formater";
 import Image from "next/image";
 import Link from "next/link";
-import Meta from "@/components/Meta";
-import Banner from "../public/banner.jpg";
-import { getCategories } from "@/lib/api";
-import LoadingSpinner from "@/components/LoadingSpinner";
-import CategoriesCarousel from "@/components/Categories/CategoriesCarousel";
-import { FaAngleDoubleRight } from "react-icons/fa";
-import { localize } from "@/lib/formater";
 import { useRouter } from "next/router";
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 const Categories = ({ categories }) => {
   const { locale } = useRouter();
@@ -25,9 +24,10 @@ const Categories = ({ categories }) => {
       <Meta seo={seo} />
       <div className="relative flex items-center w-full h-[80vh] bg-center bg-cover">
         <Image
-          src={Banner}
+          src="/banner.jpg"
           alt=""
           placeholder="blur"
+          blurDataURL="/banner.jpg"
           layout="fill"
           objectFit="cover"
           loading="lazy"
