@@ -41,7 +41,7 @@ const Orders = () => {
         orders.length > 0 ? (
           <div className="container mx-auto px-4 lg:px-16 pt-4 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-4">
             {orders.map((order) => (
-              <OrderItem order={order} />
+              <OrderItem key={order.id} order={order} />
             ))}
           </div>
         ) : (
